@@ -4,7 +4,7 @@ init = function initializeMap(div, SessionID) {
 	var esriLayer;
 	var map;
 
-	sforce.connection.sessionId = 'SessionID';
+	sforce.connection.sessionId = SessionID;
 
 	esriLayer = L.esri.basemapLayer('Topographic');
 	map = L.map( div ,{layers: esriLayer}).setView([37.33766995, -121.8874011], 16);
