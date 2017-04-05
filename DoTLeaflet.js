@@ -1,5 +1,6 @@
+var init;
 define(['JQuery'], function(JQuery) {
-function initializeMap(div) {
+init = function initializeMap(div) {
 	var esriLayer;
 	var map;
 
