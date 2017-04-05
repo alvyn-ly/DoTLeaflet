@@ -45,7 +45,7 @@ init = function initializeMap(div, SessionID) {
 		projectArray.push(marker);
 	}
 	var projects = L.layerGroup(projectArray);
-
+ 
 	new L.Control.GoogleAutocomplete().addTo(map);
 	L.control.layers({
 		'Esri': esriLayer
