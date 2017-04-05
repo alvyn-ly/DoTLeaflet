@@ -1,3 +1,5 @@
+define(['leaflet'], function(leaflet) {
+
 /*
  * L.TileLayer is used for standard xyz-numbered tile layers.
  */
@@ -145,3 +147,4 @@ L.Google = L.Class.extend({
 		//google.maps.event.trigger(this._google, "resize");
 	}
 });
+})
