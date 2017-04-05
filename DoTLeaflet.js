@@ -48,14 +48,8 @@ init = function initializeMap(div, SessionID) {
 
 	new L.Control.GoogleAutocomplete().addTo(map);
 	L.control.layers({
-		'Esri': esriLayer, 
-		'MapQuest': mapLayer,
-		'Satellite': MQ.satelliteLayer(),
-		'Dark': MQ.darkLayer(),
-		'Light': MQ.lightLayer()
+		'Esri': esriLayer
 	}, {
-		'Traffic Flow': MQ.trafficLayer({layers: ['flow']}),
-		'Traffic Incidents': MQ.trafficLayer({layers: ['incidents']}),
 		'Projects': projects
 	}, {position: 'topright', collapsed: false}).addTo(map);
 
