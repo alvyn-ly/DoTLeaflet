@@ -1,5 +1,6 @@
 requirejs.config({
 	paths: {
+		JQuery: 'JQuery',
 		LoadCSS: 'LoadCSS',
 		DoT_leaflet: 'DoTLeaflet',
 		leaflet: 'leaflet',
@@ -18,5 +19,5 @@ requirejs.config({
 	//}
 });
 
-require(["LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "googleAPI", "smoothMarkerBouncing", "Leaflet_Google"]);
+require(["JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "googleAPI", "smoothMarkerBouncing", "Leaflet_Google"]);
 
