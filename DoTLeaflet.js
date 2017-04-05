@@ -1,5 +1,5 @@
 var init;
-define(['JQuery'], function(JQuery) {
+define(['JQuery', 'leaflet'], function(JQuery) {
 init = function initializeMap(div, SessionID) {
 	var esriLayer;
 	var map;
