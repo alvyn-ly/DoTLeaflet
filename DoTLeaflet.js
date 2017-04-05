@@ -1,3 +1,4 @@
+define(['JQuery'], function(JQuery) {
 function initializeMap(div) {
 	var esriLayer;
 	var map;
@@ -253,3 +254,4 @@ function googleReverseGeocode(passLat, passLng) {
         });
 }
     //END GOOGLE AUTO COMPLETE SCRIPT
+})
