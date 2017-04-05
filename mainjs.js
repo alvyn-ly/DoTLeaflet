@@ -1,4 +1,4 @@
-require.config({
+requirejs.config({
 	paths: {
 		DoT_leaflet: "{!URLFOR($Resource.DoTLeaflet, '')}",
 		leaflet: 'leaflet',
