@@ -1,3 +1,4 @@
+define(['leaflet'], function(leaflet) {
 /*
  * Copyright (c) 2015, Alexei KLENIN
  * All rights reserved.
@@ -969,3 +970,4 @@
     };
 
 })(L);
+})
