@@ -1,6 +1,6 @@
 require.config({
 	paths: {
-		DoT_leaflet: '{!URLFOR($Resource.DoTLeaflet, '')}',
+		DoT_leaflet: "{!URLFOR($Resource.DoTLeaflet, '')}",
 		leaflet: 'leaflet',
 		esri_leaflet: 'esri_leaflet'
 	}
