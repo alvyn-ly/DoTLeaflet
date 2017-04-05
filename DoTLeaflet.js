@@ -1,10 +1,10 @@
 var init;
 define(['JQuery'], function(JQuery) {
-init = function initializeMap(div) {
+init = function initializeMap(div, SessionID) {
 	var esriLayer;
 	var map;
 
-	sforce.connection.sessionId = '{!$Api.Session_ID}';
+	sforce.connection.sessionId = 'SessionID';
 
 	esriLayer = L.esri.basemapLayer('Topographic');
 	map = L.map( div ,{layers: esriLayer}).setView([37.33766995, -121.8874011], 16);
