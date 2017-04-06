@@ -1,60 +1,55 @@
 var init;
 var map;
 define(['JQuery', 'leaflet'], function(JQuery) {
-init = function initializeMap(div, SessionID) {
-	var esriLayer;
-	
+	init = function initializeMap(div, SessionID) {
+		var esriLayer;
 
-	sforce.connection.sessionId = SessionID;
+		sforce.connection.sessionId = SessionID;
 
-	esriLayer = L.esri.basemapLayer('Topographic');
-	map = L.map( div ,{layers: esriLayer}).setView([37.33766995, -121.8874011], 16);
+		esriLayer = L.esri.basemapLayer('Topographic');
+		map = L.map( div ,{layers: esriLayer}).setView([37.33766995, -121.8874011], 16);
 
-	var projectArray = [];
+		var projectArray = [];
 
-	var projQuery = "Select p.ZipCode__c, p.TrafficCalmingRequestType__c, p.TrafficCalmingProjectType__c, p.TrafficCalmingConcernType__c, p.TrafficCalmingConcernItem__c, p.TrafficAffected__c, p.SystemModstamp, p.Summary__c, p.Status__c, p.StartDateTime__c, p.StandardizedLocation__c, p.SignalTimeOfDay__c, p.SignalSideOfStreet__c, p.SignalProjectType__c, p.SignalProblemDirection__c, p.SignalOperationAssignmentCount__c, p.SignalOperationAssignmentCompleteCount__c, p.SignalFundAdjustment__c, p.SignalDesignAssignmentCount__c, p.SignalDesignAssignmentCompleteCount__c, p.SignalDayOfWeek__c, p.SignalCustomerSurveySent__c, p.SignAssignmentCount__c, p.SignAssignmentCompleteCount__c, p.School__c, p.RequesterNotificationDate__c, p.RecordTypeId, p.ReceiveDateTime__c, p.ProjectType__c, p.ProjectLink__c, p.ProjectDurationDays__c, p.Program__c, p.OwnerId, p.Name__c, p.Name, p.MarkingAssignmentCount__c, p.MarkingAssignmentCompleteCount__c, p.MapLocation__c, p.MajorProject__c, p.LastModifiedDate, p.LastModifiedById, p.LastActivityDate, p.IsDeleted, p.Investigator__c, p.Id, p.ITSAssignmentCount__c, p.ITSAssignmentCompleteCount__c, p.HoursSpent__c, p.HeavyEquipmentAssignmentCount__c, p.HeavyEquipmentAssignmentCompleteCount__c, p.GeometricProjectType__c, p.GeometricProjectSource__c, p.GeometricPlanNumber__c, p.Geolocation__Longitude__s, p.Geolocation__Latitude__s, p.ElectricalAssignmentCount__c, p.ElectricalAssignmentCompleteCount__c, p.CreatedDate, p.CreatedById, p.CouncilDistrict__c, p.Coordinator__c, p.Concern__c, p.CompleteDateTime__c, p.ChargeNumber__c, p.AssignDateTime__c From Project__c p";
-	var records = sforce.connection.query(projQuery);
-	var records1 = records.getArray('records');
+		var projQuery = "Select p.ZipCode__c, p.TrafficCalmingRequestType__c, p.TrafficCalmingProjectType__c, p.TrafficCalmingConcernType__c, p.TrafficCalmingConcernItem__c, p.TrafficAffected__c, p.SystemModstamp, p.Summary__c, p.Status__c, p.StartDateTime__c, p.StandardizedLocation__c, p.SignalTimeOfDay__c, p.SignalSideOfStreet__c, p.SignalProjectType__c, p.SignalProblemDirection__c, p.SignalOperationAssignmentCount__c, p.SignalOperationAssignmentCompleteCount__c, p.SignalFundAdjustment__c, p.SignalDesignAssignmentCount__c, p.SignalDesignAssignmentCompleteCount__c, p.SignalDayOfWeek__c, p.SignalCustomerSurveySent__c, p.SignAssignmentCount__c, p.SignAssignmentCompleteCount__c, p.School__c, p.RequesterNotificationDate__c, p.RecordTypeId, p.ReceiveDateTime__c, p.ProjectType__c, p.ProjectLink__c, p.ProjectDurationDays__c, p.Program__c, p.OwnerId, p.Name__c, p.Name, p.MarkingAssignmentCount__c, p.MarkingAssignmentCompleteCount__c, p.MapLocation__c, p.MajorProject__c, p.LastModifiedDate, p.LastModifiedById, p.LastActivityDate, p.IsDeleted, p.Investigator__c, p.Id, p.ITSAssignmentCount__c, p.ITSAssignmentCompleteCount__c, p.HoursSpent__c, p.HeavyEquipmentAssignmentCount__c, p.HeavyEquipmentAssignmentCompleteCount__c, p.GeometricProjectType__c, p.GeometricProjectSource__c, p.GeometricPlanNumber__c, p.Geolocation__Longitude__s, p.Geolocation__Latitude__s, p.ElectricalAssignmentCount__c, p.ElectricalAssignmentCompleteCount__c, p.CreatedDate, p.CreatedById, p.CouncilDistrict__c, p.Coordinator__c, p.Concern__c, p.CompleteDateTime__c, p.ChargeNumber__c, p.AssignDateTime__c From Project__c p";
+		var records = sforce.connection.query(projQuery);
+		var records1 = records.getArray('records');
 
-	customMarker = L.Marker.extend({
-		options: { 
-			allData: "",
+		customMarker = L.Marker.extend({
+			options: { 
+				allData: "",
+			}
+		});
+		for (var i = 0; i < records1.length; i++){
+			myIcon = L.icon({
+				iconUrl: 'https://i.imgur.com/IiO1b0k.png',
+            iconSize: [40, 40], // size of the icon
+            iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+        });
+			var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
+			.bindPopup( records1[i].Name__c + "" )
+			.on('click', function () {
+				this.bounce(3);
+				console.log((this.options.allData));
+				try {
+					pushData(this.options.allData);
+				} catch(err) {
+					console.log("pushData() cannot be found.")
+				}
+			});
+			projectArray.push(marker);
 		}
-	});
-	var aa;
-	for (var i = 0; i < records1.length; i++){
-		aa = records1[i].Id + "";
+		var projects = L.layerGroup(projectArray);
 
-		myIcon = L.icon({
-			iconUrl: 'https://i.imgur.com/IiO1b0k.png',
-                iconSize: [40, 40], // size of the icon
-                iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
-                popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
-            });
+		new L.Control.GoogleAutocomplete().addTo(map);
+		L.control.layers({
+			'Esri': esriLayer
+		}, {
+			'Projects': projects
+		}, {position: 'topright', collapsed: false}).addTo(map);
 
-		var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
-		.bindPopup( records1[i].Name__c + "" )
-		.on('click', function () {
-			this.bounce(3);
-                //jQuery('[id$="myHiddenField"]').val(this.toGeoJSON());
-                //jQuery('[id$="myHiddenField"]').val(aa);
-                //console.log(JSON.stringify(this.options.allData));
-                console.log(JSON.stringify(this.options.allData));
-                
-            });
-		console.log(marker);
-		projectArray.push(marker);
 	}
-	var projects = L.layerGroup(projectArray);
- 
-	new L.Control.GoogleAutocomplete().addTo(map);
-	L.control.layers({
-		'Esri': esriLayer
-	}, {
-		'Projects': projects
-	}, {position: 'topright', collapsed: false}).addTo(map);
-
-}
 
     /**
     * Replacement function over Google Streetview to just update the location after selecting a location through the search bar.
@@ -68,10 +63,11 @@ init = function initializeMap(div, SessionID) {
     	map.setView(new L.LatLng(passY, passX), 18);
     }
 
-    /* GOOGLE AUTOCOMPLETE SCRIPT
+    /** 
+    *GOOGLE AUTOCOMPLETE SCRIPT
          * L.Control.GoogleAutocomplete - search for an address and zoom to it's location
          * https://github.com/rmunglez/leaflet-google-autocomplete
-         */
+         **/
          (function($, undefined) {
          	L.GoogleAutocomplete = {};
          	
@@ -152,6 +148,7 @@ init = function initializeMap(div, SessionID) {
                 
                 //If user selects from autocomplete picklist then this will happen
                 google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                	console.log(autocomplete);
                 	var place = autocomplete.getPlace();
                     //console.log( place);
                     if (!place.geometry) {
