@@ -1,3 +1,4 @@
+define(['domReady!'], function() {
 requirejs.config({
 	paths: {
 		JQuery: 'JQuery',
@@ -20,4 +21,4 @@ requirejs.config({
 });
 
 require(["JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "googleAPI", "smoothMarkerBouncing", "Leaflet_Google"]);
-
+});
