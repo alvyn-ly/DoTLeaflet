@@ -1,8 +1,9 @@
 var init;
+var map;
 define(['JQuery', 'leaflet'], function(JQuery) {
 init = function initializeMap(div, SessionID) {
 	var esriLayer;
-	var map;
+	
 
 	sforce.connection.sessionId = SessionID;
 
