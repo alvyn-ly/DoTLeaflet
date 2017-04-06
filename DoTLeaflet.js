@@ -152,7 +152,6 @@ init = function initializeMap(div, SessionID) {
                 
                 //If user selects from autocomplete picklist then this will happen
                 google.maps.event.addListener(autocomplete, 'place_changed', function() {
-                	console.log(autocomplete);
                 	var place = autocomplete.getPlace();
                     //console.log( place);
                     if (!place.geometry) {
