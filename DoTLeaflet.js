@@ -41,7 +41,7 @@ define(['JQuery', 'leaflet'], function(JQuery) {
 			projectArray.push(marker);
 		}
 		var projects = L.layerGroup(projectArray);
-
+		projects.addTo(map);
 		new L.Control.GoogleAutocomplete().addTo(map);
 		L.control.layers({
 			'Esri': esriLayer
