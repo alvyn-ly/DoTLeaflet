@@ -2,7 +2,7 @@ var init;
 var map;
 var markers = [], // an array containing all the markers added to the map
 markersCount = 0; // the number of the added markers
-define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
+define(['JQuery', 'leaflet'], function(JQuery) {
 	init = function initializeMap(div, SessionID) {
 		var esriLayer;
 
@@ -52,6 +52,13 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 		}, {position: 'topright', collapsed: false}).addTo(map);
 
 		addMarkers();
+		var commandDrag = L.control({position: 'bottomright'});
+		commandDrag.onAdd = function (map) {
+			var div = L.DomUtil.get('marker-menu');
+			return div;
+		}; 
+		commandDrag.addTo(map);
+		noDrag(commandDrag);
 
 	}
 
