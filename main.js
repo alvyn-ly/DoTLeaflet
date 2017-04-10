@@ -1,7 +1,7 @@
 requirejs.config({
 	paths: {
 		JQuery: 'JQuery',
-		JQuery_ui: 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js',
+		JQuery_ui: 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min',
 		LoadCSS: 'LoadCSS',
 		DoT_leaflet: 'DoTLeaflet',
 		leaflet: 'leaflet',
