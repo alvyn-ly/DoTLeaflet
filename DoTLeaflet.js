@@ -3,7 +3,7 @@ var map;
 var markers = [], // an array containing all the markers added to the map
 markersCount = 0; // the number of the added markers
 define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
-	init = function initializeMap(div, SessionID) {
+	init = function initializeMap(div, SessionID, options) {
 		var esriLayer;
 
 		sforce.connection.sessionId = SessionID;
@@ -17,22 +17,24 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 		var records = sforce.connection.query(projQuery);
 		var records1 = records.getArray('records');
 
-		customMarker = L.Marker.extend({
-			options: { 
-				allData: "",
-			}
-		});
-		for (var i = 0; i < records1.length; i++){
-			myIcon = L.icon({
-				iconUrl: 'https://i.imgur.com/IiO1b0k.png',
+		if (options.projectsLayer){
+
+			customMarker = L.Marker.extend({
+				options: { 
+					allData: "",
+				}
+			});
+			for (var i = 0; i < records1.length; i++){
+				myIcon = L.icon({
+					iconUrl: 'https://i.imgur.com/IiO1b0k.png',
             iconSize: [40, 40], // size of the icon
             iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
             popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
         });
-			var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
-			.bindPopup( records1[i].Name__c + "" )
-			.on('click', function () {
-				this.bounce(3);
+				var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
+				.bindPopup( records1[i].Name__c + "" )
+				.on('click', function () {
+					this.bounce(3);
 				//console.log((this.options.allData));
 				try {
 					pushData(this.options.allData);
@@ -40,25 +42,35 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 					console.log("pushData() cannot be found.")
 				}
 			});
-			projectArray.push(marker);
+				projectArray.push(marker);
+			}
+			var projects = L.layerGroup(projectArray);
+			projects.addTo(map);
 		}
-		var projects = L.layerGroup(projectArray);
-		projects.addTo(map);
-		new L.Control.GoogleAutocomplete().addTo(map);
-		L.control.layers({
-			'Esri': esriLayer
-		}, {
-			'Projects': projects
-		}, {position: 'topright', collapsed: false}).addTo(map);
 
-		addMarkers();
-		var commandDrag = L.control({position: 'bottomright'});
-		commandDrag.onAdd = function (map) {
-			var div = L.DomUtil.get('marker-menu');
-			return div;
-		}; 
-		commandDrag.addTo(map);
-		noDrag(commandDrag);
+		if (options.search){
+			new L.Control.GoogleAutocomplete().addTo(map);
+		}
+
+
+		if (options.layerMenu){
+			L.control.layers({
+				'Esri': esriLayer
+			}, {
+				'Projects': projects
+			}, {position: 'topright', collapsed: false}).addTo(map);
+		}
+
+		if (options.dragMarker){
+			addMarkers();
+			var commandDrag = L.control({position: 'bottomright'});
+			commandDrag.onAdd = function (map) {
+				var div = L.DomUtil.get('marker-menu');
+				return div;
+			}; 
+			commandDrag.addTo(map);
+			noDrag(commandDrag);
+		}
 
 	}
 
