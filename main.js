@@ -1,6 +1,7 @@
 requirejs.config({
 	paths: {
 		JQuery: 'JQuery',
+		JQuery_ui: 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js',
 		LoadCSS: 'LoadCSS',
 		DoT_leaflet: 'DoTLeaflet',
 		leaflet: 'leaflet',
@@ -19,4 +20,4 @@ requirejs.config({
 	//}
 });
 
-require(["JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "googleAPI", "smoothMarkerBouncing", "Leaflet_Google"]);
+require(["JQuery_ui", "JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "googleAPI", "smoothMarkerBouncing", "Leaflet_Google"]);
