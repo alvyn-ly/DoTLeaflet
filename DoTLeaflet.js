@@ -119,7 +119,7 @@ define(['JQuery', 'leaflet'], function(JQuery) {
                     }).on('dragend', function(event){
                     	console.log(markers[0].getLatLng().lat + "  " + markers[0].getLatLng().lng);
                     }).addTo( map );
-                    updateView(markerCoords.lat, markerCoords.lng);                    
+                    console.log(markerCoords.lat + "   " + markerCoords.lng);                    
                     markersCount++;
                 }
             });
