@@ -51,7 +51,7 @@ define(['JQuery', 'leaflet'], function(JQuery) {
 			'Projects': projects
 		}, {position: 'topright', collapsed: false}).addTo(map);
 
-
+		addMarkers();
 
 	}
 
