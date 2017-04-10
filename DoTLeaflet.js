@@ -118,8 +118,18 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
                     	icon: myIcon
                     }).on('dragend', function(event){
                     	console.log(markers[0].getLatLng().lat + "  " + markers[0].getLatLng().lng);
+                    	try {
+                    		getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng);
+                    	} catch (err) {
+                    		console.log("getDropLocation() cannot be found.")
+                    	}
                     }).addTo( map );
-                    console.log(markerCoords.lat + "   " + markerCoords.lng);                    
+                    console.log(markerCoords.lat + "   " + markerCoords.lng);  
+                    try {
+                    	getDropLocation(markerCoords.lat, markerCoords.lng);  
+                    } catch (err) {
+                    	console.log("getDropLocation() cannot be found.")
+                    }             
                     markersCount++;
                 }
             });
