@@ -1,5 +1,7 @@
 var init;
 var map;
+var markers = [], // an array containing all the markers added to the map
+markersCount = 0; // the number of the added markers
 define(['JQuery', 'leaflet'], function(JQuery) {
 	init = function initializeMap(div, SessionID) {
 		var esriLayer;
@@ -31,7 +33,7 @@ define(['JQuery', 'leaflet'], function(JQuery) {
 			.bindPopup( records1[i].Name__c + "" )
 			.on('click', function () {
 				this.bounce(3);
-				console.log((this.options.allData));
+				//console.log((this.options.allData));
 				try {
 					pushData(this.options.allData);
 				} catch(err) {
@@ -49,7 +51,89 @@ define(['JQuery', 'leaflet'], function(JQuery) {
 			'Projects': projects
 		}, {position: 'topright', collapsed: false}).addTo(map);
 
+
+
 	}
+
+/*
+        * Sets up the functionality for the draggable marker for the streetview. Allows for drag and drop, then repositioning, for updating the streetview location.
+        * @method addMarkers
+        */
+        var addMarkers = function () {
+        	//create new div
+        	var div1 = document.createElement("div");
+        	div1.id = "marker-menu";
+        	div1.setAttribute('class', 'marker-menu');
+        	var div2 = document.createElement("img");
+        	div2.id = "draggable-marker";
+        	div2.setAttribute('src', 'https://i.imgur.com/u1MkOm8.png');
+        	div2.setAttribute('class', 'draggable-marker');
+        	document.getElementById("main").appendChild(div1);
+        	document.getElementById("div1").appendChild(div2);
+
+            // The position of the marker icon
+            var posTop = $( '.draggable-marker' ).css( 'top' ),
+            posLeft = $( '.draggable-marker' ).css( 'left' );
+            var mouseMarkerPosX;
+            var mouseMarkerPosY;
+            $( '.draggable-marker' ).draggable({
+            	start: function (e, ui ){
+
+                    // mouse position on marker
+                    var offset = $( '.draggable-marker' ).offset(); 
+                    mouseMarkerPosX = event.clientX - offset.left;
+                    mouseMarkerPosY = event.clientY - offset.top;
+                },
+                
+                stop: function ( e, ui ) {
+                    // returning the icon to the menu
+                    $( '.draggable-marker' ).css( 'top', posTop );
+                    $( '.draggable-marker' ).css( 'left', posLeft );
+                    
+                    var coordsX = event.clientX + 64 / 2 - mouseMarkerPosX;
+                    coordsY = event.clientY + 64 - mouseMarkerPosY;
+                    point = L.point( coordsX, coordsY ), // createing a Point object with the given x and y coordinates
+                        markerCoords = map.containerPointToLatLng( point ), // getting the geographical coordinates of the point
+                        
+                        // Creating a custom icon
+                        myIcon = L.icon({
+                            iconUrl: 'https://i.imgur.com/u1MkOm8.png', // the url of the img
+                            iconSize: [64, 64],
+                            iconAnchor: [32, 64] // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
+                        });
+
+                    // Creating a new marker and adding it to the map
+                    if (markers[0] != null){
+                    	map.removeLayer(markers[0]);
+                    }
+                    markers[0] = L.marker( [ markerCoords.lat, markerCoords.lng ], {
+                    	draggable: true,
+                    	icon: myIcon
+                    }).on('dragend', function(event){
+                    	updateView(markers[0].getLatLng().lat, markers[0].getLatLng().lng);
+                    }).addTo( map );
+                    updateView(markerCoords.lat, markerCoords.lng);                    
+                    markersCount++;
+                }
+            });
+        }
+
+	/*
+        * adds eventlisteners to the chosen div to prevent the map from dragging when mouse events happen inside the div.
+        * @method noDrag
+        * @param info the div that is getting noDrag applied to it.
+        */
+        function noDrag(info){
+            // Disable dragging when user's cursor enters the element
+            info.getContainer().addEventListener('mouseover', function () {
+            	map.dragging.disable();
+            });
+            
+            // Re-enable dragging when user's cursor leaves the element
+            info.getContainer().addEventListener('mouseout', function () {
+            	map.dragging.enable();
+            });
+        }
 
     /**
     * Replacement function over Google Streetview to just update the location after selecting a location through the search bar.
@@ -93,7 +177,7 @@ define(['JQuery', 'leaflet'], function(JQuery) {
         			options = {};
         		}
         		var optionsTmp = {
-        			'searchLabel': options.searchLabel || 'Search for Shop, Address, or Intersection...',
+        			'searchLabel': options.searchLabel || 'Search for location...',
         			'closeToMeLabel': options.closeToMeLabel || 'Close to me',
         			'notFoundMessage' : options.notFoundMessage || 'Sorry, that address could not be found.',
         			'zoomLevel': options.zoomLevel || 13
