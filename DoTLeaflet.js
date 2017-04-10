@@ -98,7 +98,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
                     $( '.draggable-marker' ).css( 'left', posLeft );
                     
                     var coordsX = event.clientX - mouseMarkerPosX;
-                    coordsY = event.clientY - mouseMarkerPosY;
+                    coordsY = event.clientY - 64 - mouseMarkerPosY;
                     point = L.point( coordsX, coordsY ), // createing a Point object with the given x and y coordinates
                         markerCoords = map.containerPointToLatLng( point ), // getting the geographical coordinates of the point
                         
