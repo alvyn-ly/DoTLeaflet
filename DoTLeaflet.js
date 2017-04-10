@@ -110,7 +110,7 @@ define(['JQuery', 'leaflet'], function(JQuery) {
                     	draggable: true,
                     	icon: myIcon
                     }).on('dragend', function(event){
-                    	updateView(markers[0].getLatLng().lat, markers[0].getLatLng().lng);
+                    	console.log(markers[0].getLatLng().lat + "  " + markers[0].getLatLng().lng);
                     }).addTo( map );
                     updateView(markerCoords.lat, markerCoords.lng);                    
                     markersCount++;
