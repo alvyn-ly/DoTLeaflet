@@ -2,7 +2,7 @@ var init;
 var map;
 var markers = [], // an array containing all the markers added to the map
 markersCount = 0; // the number of the added markers
-define(['JQuery', 'leaflet'], function(JQuery) {
+define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 	init = function initializeMap(div, SessionID) {
 		var esriLayer;
 
