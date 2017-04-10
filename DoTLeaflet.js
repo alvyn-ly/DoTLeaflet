@@ -68,8 +68,8 @@ define(['JQuery', 'leaflet'], function(JQuery) {
         	div2.id = "draggable-marker";
         	div2.setAttribute('src', 'https://i.imgur.com/u1MkOm8.png');
         	div2.setAttribute('class', 'draggable-marker');
-        	document.body.appendChild(div1);
-        	document.getElementById("div1").appendChild(div2);
+        	document.getElementById("main").appendChild(div1);
+        	document.getElementById("marker-menu").appendChild(div2);
 
             // The position of the marker icon
             var posTop = $( '.draggable-marker' ).css( 'top' ),
