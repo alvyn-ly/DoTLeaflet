@@ -360,3 +360,4 @@ function googleReverseGeocode(passLat, passLng) {
 }
     //END GOOGLE AUTO COMPLETE SCRIPT
 })
+createMap();
