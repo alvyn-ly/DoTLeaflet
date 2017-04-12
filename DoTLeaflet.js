@@ -74,6 +74,9 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 		if (options.lat != undefined && options.lng != undefined){
 			processLocation(options.lng, options.lat, null, null);
 		}
+		if (options.zoom != undefined && Number.isInteger(options.zoom)){
+			map.setZoom(options.zoom);
+		}
 	}
 
 /*
