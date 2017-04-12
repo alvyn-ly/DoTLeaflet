@@ -1,4 +1,5 @@
 requirejs.config({
+	urlArgs: "bust=" + (new Date()).getTime(),
 	paths: {
 		JQuery: 'JQuery',
 		JQuery_ui: 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min',
@@ -19,5 +20,7 @@ requirejs.config({
 	//	}
 	//}
 });
+
+
 
 require(["JQuery_ui", "JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "googleAPI", "smoothMarkerBouncing", "Leaflet_Google"]);
