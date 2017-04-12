@@ -71,7 +71,9 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 			commandDrag.addTo(map);
 			noDrag(commandDrag);
 		}
-
+		if (options.lat != undefined && options.lng != undefined){
+			processLocation(options.lng, options.lat, null, null);
+		}
 	}
 
 /*
