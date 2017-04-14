@@ -3,7 +3,7 @@ define('jquery', [], function() {
 });
 
 requirejs.config({
-	urlArgs: "bust=" + (new Date()).getTime(),
+	//urlArgs: "bust=" + (new Date()).getTime(),
 	paths: {
 		JQuery: 'JQuery',
 		JQuery_ui: 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min',
