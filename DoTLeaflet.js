@@ -3,7 +3,7 @@ var map;
 var markers = [], // an array containing all the markers added to the map
 markersCount = 0; // the number of the added markers
 define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
-	init = function initializeMap(div, SessionID, options) {
+	init = function initializeMap(options) {
 		var esriLayer;
 
 		sforce.connection.sessionId = SessionID;
@@ -365,3 +365,4 @@ function googleReverseGeocode(passLat, passLng) {
 }
     //END GOOGLE AUTO COMPLETE SCRIPT
 })
+init(options);
