@@ -6,10 +6,10 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 	init = function initializeMap(options) {
 		var esriLayer;
 
-		sforce.connection.sessionId = SessionID;
+		sforce.connection.sessionId = options.SessionID;
 
 		esriLayer = L.esri.basemapLayer('Topographic');
-		map = L.map( div ,{layers: esriLayer}).setView([37.33766995, -121.8874011], 16);
+		map = L.map( options.div ,{layers: esriLayer}).setView([37.33766995, -121.8874011], 16);
 
 		var projectArray = [];
 
