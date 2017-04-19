@@ -1,7 +1,3 @@
-define('jquery', [], function() {
-    return jQuery;
-});
-
 requirejs.config({
 	//urlArgs: "bust=" + (new Date()).getTime(),
 	paths: {
