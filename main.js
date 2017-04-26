@@ -9,7 +9,8 @@ requirejs.config({
 		esri_leaflet: 'esri_leaflet',
 		googleAPI: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBimi-uaVPiKmbW53QUc61AOkzflR0XzZs&sensor=false&libraries=places',
 		smoothMarkerBouncing: 'smoothMarkerBouncing',
-		Leaflet_Google: 'Leaflet_Google'
+		Leaflet_Google: 'Leaflet_Google',
+		Routing: 'leaflet-routing-machine'
 	},
 	shim: {
 		'DoT_leaflet': {
@@ -26,4 +27,4 @@ requirejs.config({
 
 
 
-require(["JQuery_ui", "JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "googleAPI", "smoothMarkerBouncing", "Leaflet_Google"]);
+require(["Routing","JQuery_ui", "JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "googleAPI", "smoothMarkerBouncing", "Leaflet_Google"]);
