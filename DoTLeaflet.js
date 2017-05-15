@@ -77,13 +77,88 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 		if (options.zoom != undefined && Number.isInteger(options.zoom)){
 			map.setZoom(options.zoom);
 		}
-	}
+
+		// -----------------------  ESRI OPTIONS ------------------------ //
+		if (options.esriSet != undefined){
+			var privateStreets = L.esri.featureLayer({
+				url: privateStreetsURL,
+				minZoom: 17,
+				maxZoom: 19,
+				style : function (feature){
+					return { color: '#b3b3cc',opacity: 0.75, weight: 5 };
+				}
+			}).addTo(map);        
+       		// END PRIVATE STREETS
+
+        	//add a WFS incorporated
+        	incorporatedLayer('add', 'black'); //added by this special function to allow change color dynamically
+
+        	//add a WFS gflandscape
+        	var gflandscape = L.esri.featureLayer({
+        		url: gflandscapeWFSURL,
+        		simplifyFactor: 0.5,
+        		precision: 6,
+            	//fillColor: 'black',
+            	color: 'green',
+            	weight: 1.8,
+            	minZoom: 16,
+            	maxZoom: 19
+            }).addTo(map);
+
+        	//Popup for gflandscape
+        	gflandscape.bindPopup(function (feature) {
+        		return L.Util.template('General Fund Landscaping', feature.properties);
+        	});
+
+        	//add a WFS sdlandscape
+        	var sdlandscape = L.esri.featureLayer({
+        		url: sdlandscapeWFSURL,
+        		simplifyFactor: 0.5,
+        		precision: 6,
+            	//fillColor: 'black',
+            	color: 'blue',
+            	weight: 1.8,
+            	minZoom: 16,
+            	maxZoom: 19
+            }).addTo(map);
+
+        	//Popup for sdlandscape
+        	sdlandscape.bindPopup(function (feature) {
+        		return L.Util.template('Special Districts Landscaping', feature.properties);
+        	});
+        }
+        // -------------------- END ESRI OPTIONS ---------------------- //
+    }
+
+    //use to add or change fill color of incorporated polygon, fires on basemap change
+    function incorporatedLayer(active, color) {
+    	if(active == "add") {
+    		overlayIncorporated = L.esri.featureLayer({
+    			url: incorporatedWFSURL,
+    			simplifyFactor: .5,
+    			precision: 6,
+    			fillColor: color,
+    			color: 'white',
+    			weight: 0,
+    			minZoom: 12,
+    			maxZoom: 19
+    		}).addTo(map);
+            //Popup for incorporated
+            overlayIncorporated.bindPopup(function (feature) {
+            	return L.Util.template('Outside of Incorporated San Jose', feature.properties);
+            });
+        }
+        if(active == "change_color") {
+        	overlayIncorporated.setStyle({fillColor: color});  
+        }        
+    }
+
 
 	/*
 	 * Sets up the functionality for the draggable marker for the streetview. Allows for drag and drop, then repositioning, for updating the streetview location.
 	 * @method addMarkers
 	 */
-	var addMarkers = function () {
+	 var addMarkers = function () {
 		//create new div
 		var div1 = document.createElement("div");
 		div1.id = "marker-menu";
@@ -115,7 +190,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 				$( '.draggable-marker' ).css( 'left', posLeft );
 
 				var coordsX = event.clientX - mouseMarkerPosX;
-				coordsY = event.clientY - 64 - mouseMarkerPosY;
+				var coordsY = event.clientY - 64 - mouseMarkerPosY;
 				point = L.point( coordsX, coordsY ), // createing a Point object with the given x and y coordinates
 				markerCoords = map.containerPointToLatLng( point ), // getting the geographical coordinates of the point
 
@@ -136,14 +211,14 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 				}).on('dragend', function(event){
 					console.log(markers[0].getLatLng().lat + "  " + markers[0].getLatLng().lng);
 					try {
-						getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng);
+						getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[0]);
 					} catch (err) {
 						console.log("getDropLocation() cannot be found.")
 					}
 				}).addTo( map );
 				console.log(markerCoords.lat + "   " + markerCoords.lng);  
 				try {
-					getDropLocation(markerCoords.lat, markerCoords.lng);  
+					getDropLocation(markerCoords.lat, markerCoords.lng, markers[0]);  
 				} catch (err) {
 					console.log("getDropLocation() cannot be found.")
 				}             
@@ -157,7 +232,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 	 * @method noDrag
 	 * @param info the div that is getting noDrag applied to it.
 	 */
-	function noDrag(info){
+	 function noDrag(info){
 		// Disable dragging when user's cursor enters the element
 		info.getContainer().addEventListener('mouseover', function () {
 			map.dragging.disable();
@@ -174,11 +249,16 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 	 * @method processLocation
 	 * @param passX the x coordinate
 	 * @param passY the y coordinate
-	 * @param addressBox old parameter. Unused.
-	 * @param addressComponent old parameter. Unused.
+	 * @param addressBox 
+	 * @param addressComponent
 	 **/
 	function processLocation(passX, passY, addressBox, addressComponents) {//after the geocode search happens in the autocomplete box, I shut off all the google stuff and instead it just passes the x&y to this function where I can use it in Leaflet.
 		map.setView(new L.LatLng(passY, passX), 18);
+		try {
+			setAddressInfo(passX, passY, addressBox, addressComponents);  
+		} catch (err) {
+			console.log("setAddressInfo() cannot be found.")
+		} 
 	}
 
 	/** 
@@ -186,91 +266,91 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 	 * L.Control.GoogleAutocomplete - search for an address and zoom to it's location
 	 * https://github.com/rmunglez/leaflet-google-autocomplete
 	 **/
-	(function($, undefined) {
-		L.GoogleAutocomplete = {};
-		jQuery.support.cors = true;
+	 (function($, undefined) {
+	 	L.GoogleAutocomplete = {};
+	 	jQuery.support.cors = true;
 
-		L.GoogleAutocomplete.Result = function (x, y, label) {
-			this.X = x;
-			this.Y = y;
-			this.Label = label;
-		};
+	 	L.GoogleAutocomplete.Result = function (x, y, label) {
+	 		this.X = x;
+	 		this.Y = y;
+	 		this.Label = label;
+	 	};
 
-		L.Control.GoogleAutocomplete = L.Control.extend({
-			options: {
-				position: 'topright'
-			},
+	 	L.Control.GoogleAutocomplete = L.Control.extend({
+	 		options: {
+	 			position: 'topright'
+	 		},
 
-			initialize: function (options) {
-				this._config = {};
-				if (!options) {
-					options = {};
-				}
-				var optionsTmp = {
-						'searchLabel': options.searchLabel || 'Search for location...',
-						'closeToMeLabel': options.closeToMeLabel || 'Close to me',
-						'notFoundMessage' : options.notFoundMessage || 'Sorry, that address could not be found.',
-						'zoomLevel': options.zoomLevel || 13
-				}
-				L.Util.extend(this.options, optionsTmp);             
-			},
+	 		initialize: function (options) {
+	 			this._config = {};
+	 			if (!options) {
+	 				options = {};
+	 			}
+	 			var optionsTmp = {
+	 				'searchLabel': options.searchLabel || 'Search for location...',
+	 				'closeToMeLabel': options.closeToMeLabel || 'Close to me',
+	 				'notFoundMessage' : options.notFoundMessage || 'Sorry, that address could not be found.',
+	 				'zoomLevel': options.zoomLevel || 13
+	 			}
+	 			L.Util.extend(this.options, optionsTmp);             
+	 		},
 
-			onAdd: function (map) {
-				var $controlContainer = $(map._controlContainer);
+	 		onAdd: function (map) {
+	 			var $controlContainer = $(map._controlContainer);
 
-				if ($controlContainer.children('.leaflet-top.leaflet-center').length == 0) {
-					$controlContainer.append('<div class="leaflet-top leaflet-center"></div>');
-					map._controlCorners.topcenter = $controlContainer.children('.leaflet-top.leaflet-center').first()[0];
-				}
+	 			if ($controlContainer.children('.leaflet-top.leaflet-center').length == 0) {
+	 				$controlContainer.append('<div class="leaflet-top leaflet-center"></div>');
+	 				map._controlCorners.topcenter = $controlContainer.children('.leaflet-top.leaflet-center').first()[0];
+	 			}
 
-				this._map = map;
-				this._container = L.DomUtil.create('div', 'leaflet-control-googleautocomplete');
+	 			this._map = map;
+	 			this._container = L.DomUtil.create('div', 'leaflet-control-googleautocomplete');
 
-				var searchwrapper = document.createElement('div');
-				searchwrapper.className = 'leaflet-control-googleautocomplete-wrapper';
+	 			var searchwrapper = document.createElement('div');
+	 			searchwrapper.className = 'leaflet-control-googleautocomplete-wrapper';
 
-				var searchbox = document.createElement('input');
-				searchbox.id = 'leaflet-control-googleautocomplete-qry';
-				searchbox.type = 'text';
-				searchbox.placeholder = this.options.searchLabel;
-				this._searchbox = searchbox;
+	 			var searchbox = document.createElement('input');
+	 			searchbox.id = 'leaflet-control-googleautocomplete-qry';
+	 			searchbox.type = 'text';
+	 			searchbox.placeholder = this.options.searchLabel;
+	 			this._searchbox = searchbox;
 
-				var closetomebox = document.createElement('div');
-				closetomebox.id = 'leaflet-control-googleautocomplete-closetome';
-				closetomebox.className = 'leaflet-control-googleautocomplete-closetome';
-				this._closetomebox = closetomebox;
+	 			var closetomebox = document.createElement('div');
+	 			closetomebox.id = 'leaflet-control-googleautocomplete-closetome';
+	 			closetomebox.className = 'leaflet-control-googleautocomplete-closetome';
+	 			this._closetomebox = closetomebox;
 
-				$(searchwrapper).append(this._searchbox);
-				$(this._container).append(searchwrapper, this._closetomebox);
+	 			$(searchwrapper).append(this._searchbox);
+	 			$(this._container).append(searchwrapper, this._closetomebox);
 
 
-				L.DomEvent.addListener(this._container, 'click', L.DomEvent.stop);
-				L.DomEvent.disableClickPropagation(this._container);
+	 			L.DomEvent.addListener(this._container, 'click', L.DomEvent.stop);
+	 			L.DomEvent.disableClickPropagation(this._container);
 
-				L.DomEvent.addListener(this._closetomebox, 'click', this._closeToMe, this);
-				L.DomEvent.disableClickPropagation(this._closetomebox);
+	 			L.DomEvent.addListener(this._closetomebox, 'click', this._closeToMe, this);
+	 			L.DomEvent.disableClickPropagation(this._closetomebox);
 
-				var autocomplete = new google.maps.places.Autocomplete(this._searchbox);
-				autocomplete.setTypes(['geocode']);
+	 			var autocomplete = new google.maps.places.Autocomplete(this._searchbox);
+	 			autocomplete.setTypes(['geocode']);
 
-				var Me = this;
+	 			var Me = this;
 
-				google.maps.event.addListener(autocomplete, 'place_changed', function() {
-					console.log(autocomplete);
-					var place = autocomplete.getPlace();
-					if (!place.geometry) {
-						$('leaflet-control-googleautocomplete-qry').addClass('notfound');
-						return;
-					}
+	 			google.maps.event.addListener(autocomplete, 'place_changed', function() {
+	 				console.log(autocomplete);
+	 				var place = autocomplete.getPlace();
+	 				if (!place.geometry) {
+	 					$('leaflet-control-googleautocomplete-qry').addClass('notfound');
+	 					return;
+	 				}
 
-					if (place.geometry.location) {
-						$('leaflet-control-googleautocomplete-qry').removeClass('notfound');
+	 				if (place.geometry.location) {
+	 					$('leaflet-control-googleautocomplete-qry').removeClass('notfound');
 						processLocation(place.geometry.location.lng(), place.geometry.location.lat(), place.name, place.address_components); //this is going to main script area. passed variable is (x,y) for later parsing.
 						searchbox.value = searchbox.value.replace(", United States","");//remove 'United States' because it is superfluous
 					}
 				});   
 
-				$(searchbox).keypress(function(e) {
+	 			$(searchbox).keypress(function(e) {
 					if(e.which == 13) { //if a number is entered into the searchbox, it will attempt to find the shopNo instead. INCOMPLETE UNTIL SHOP DB IS IMPORTED
 						var geocoder;
 						geocoder = new google.maps.Geocoder();
@@ -312,38 +392,38 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 					}
 				});
 
-				return this._container;
-			},
+	 			return this._container;
+	 		},
 
-			_closeToMe: function (e) {
-				if (navigator.geolocation) {
-					var Me = this;
-					navigator.geolocation.getCurrentPosition(function(position) {
-						alert(position.coords.latitude);
-						Me._map.panTo([position.coords.latitude, position.coords.longitude]);
-						Me._map.setZoom(Me.options.zoomLevel);
-					});
-				}
-			},
-		});
-	})(jQuery);
+	 		_closeToMe: function (e) {
+	 			if (navigator.geolocation) {
+	 				var Me = this;
+	 				navigator.geolocation.getCurrentPosition(function(position) {
+	 					alert(position.coords.latitude);
+	 					Me._map.panTo([position.coords.latitude, position.coords.longitude]);
+	 					Me._map.setZoom(Me.options.zoomLevel);
+	 				});
+	 			}
+	 		},
+	 	});
+})(jQuery);
 
-	function googleReverseGeocode(passLat, passLng) {
-		var geocoder;
-		geocoder = new google.maps.Geocoder();
-		var latlng = {lat: passLat, lng: passLng};
-		geocoder.geocode({'location': latlng}, function(results, status) {
-			if (status === google.maps.GeocoderStatus.OK) {
-				if (results[0]) {
-					googleReverseGeocodeResult(results[0].formatted_address);
-				} else {
+function googleReverseGeocode(passLat, passLng) {
+	var geocoder;
+	geocoder = new google.maps.Geocoder();
+	var latlng = {lat: passLat, lng: passLng};
+	geocoder.geocode({'location': latlng}, function(results, status) {
+		if (status === google.maps.GeocoderStatus.OK) {
+			if (results[0]) {
+				googleReverseGeocodeResult(results[0].formatted_address);
+			} else {
 					//console.log('Reverse location lookup: No results found');
 				}
 			} else {
 				//console.log('Reverse location lookup was not successful for the following reason: ' + status);
 			}
 		});
-	}
+}
 	//END GOOGLE AUTO COMPLETE SCRIPT
 	if (options != undefined){	
 		init(options);
