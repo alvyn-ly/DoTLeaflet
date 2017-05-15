@@ -80,6 +80,14 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 
 		// -----------------------  ESRI OPTIONS ------------------------ //
 		if (options.esriSet != undefined){
+
+			var streetlightWFSURL = 'https://services2.arcgis.com/KCFBdu4OIPKQGsVV/arcgis/rest/services/StreetlightUpdate/FeatureServer/0'; //MUST be https for salesforce to accept
+			var privateStreetsURL = 'https://services2.arcgis.com/KCFBdu4OIPKQGsVV/arcgis/rest/services/private_streets/FeatureServer/0';
+			var incorporatedWFSURL = 'https://services2.arcgis.com/KCFBdu4OIPKQGsVV/arcgis/rest/services/incorporated_areas_mask/FeatureServer/0';
+			var gflandscapeWFSURL = 'https://services2.arcgis.com/KCFBdu4OIPKQGsVV/arcgis/rest/services/landscaping_city_all/FeatureServer/3';
+			var sdlandscapeWFSURL = 'https://services2.arcgis.com/KCFBdu4OIPKQGsVV/arcgis/rest/services/landscaping_city_all/FeatureServer/1';
+			var councilWFSURL = 'https://services2.arcgis.com/KCFBdu4OIPKQGsVV/arcgis/rest/services/council/FeatureServer/0';
+
 			var privateStreets = L.esri.featureLayer({
 				url: privateStreetsURL,
 				minZoom: 17,
