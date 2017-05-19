@@ -39,8 +39,13 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 					//console.log((this.options.allData));
 					try {
 						pushData(this.options.allData);
-					} catch(err) {
-						console.log("pushData() cannot be found.")
+					} catch(e) {
+						if (options.error){
+							console.log("pushData() has an error.")
+							console.log("Error", e.stack);
+							console.log("Error", e.name);
+							console.log("Error", e.message);
+						}
 					}
 				});
 				projectArray.push(marker);
@@ -225,17 +230,24 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
             		try {
             			getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[0]);
             		} catch (e) {
-            			console.log("getDropLocation() cannot be found.")
-            			console.log("Error", e.stack);
-            			console.log("Error", e.name);
-            			console.log("Error", e.message);
+            			if (options.error){
+            				console.log("Error", e.stack);
+            				console.log("Error", e.name);
+            				console.log("Error", e.message);
+            			}
             		}
             	}).addTo( map );
 				console.log(markerCoords.lat + "   " + markerCoords.lng);  
 				try {
 					getDropLocation(markerCoords.lat, markerCoords.lng, markers[0]);  
-				} catch (err) {
-					console.log("getDropLocation() cannot be found.")
+				} catch (e) {
+					if (options.error){
+						console.log("getDropLocation() has an error.")
+						console.log("Error", e.stack);
+						console.log("Error", e.name);
+						console.log("Error", e.message);
+					}
+					
 				}             
 				markersCount++;
 			}
@@ -271,8 +283,14 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 		map.setView(new L.LatLng(passY, passX), 18);
 		try {
 			setAddressInfo(passX, passY, addressBox, addressComponents);  
-		} catch (err) {
-			console.log("setAddressInfo() cannot be found.")
+		} catch (e) {
+			if (options.error){
+				console.log("setAddressInfo() has en error.")
+				console.log("Error", e.stack);
+				console.log("Error", e.name);
+				console.log("Error", e.message);
+			}
+			
 		} 
 	}
 
@@ -453,8 +471,13 @@ function googleReverseGeocodeResult(address) {//does a replace to trim address a
     }
     try {
     	passMarkerAddress(nocityAddress);  
-    } catch (err) {
-    	console.log("passMarkerAddress() cannot be found.")
+    } catch (e) {
+    	if (options.error){
+    		console.log("passMarkerAddress() has an error.")
+    		console.log("Error", e.stack);
+    		console.log("Error", e.name);
+    		console.log("Error", e.message);
+    	}
     } 
 }	
 
