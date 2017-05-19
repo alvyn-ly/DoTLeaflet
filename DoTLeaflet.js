@@ -226,6 +226,9 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
             			getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[0]);
             		} catch (err) {
             			console.log("getDropLocation() cannot be found.")
+            			console.log("Error", e.stack);
+            			console.log("Error", e.name);
+            			console.log("Error", e.message);
             		}
             	}).addTo( map );
 				console.log(markerCoords.lat + "   " + markerCoords.lng);  
