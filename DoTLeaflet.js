@@ -223,11 +223,8 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 					draggable: true,
 					icon: myIcon
 				}).on('dragend', function(event){
-					//console.log(markers[0].getLatLng().lat + "  " + markers[0].getLatLng().lng);
-					calculateLocation(markers[0].getLatLng().lng, markers[0].getLatLng().lat);
-            		googleReverseGeocode(markers[0].getLatLng().lat,markers[0].getLatLng().lng);//sends up to geocoder, which fires googleReverseGeocodeResult function
-            		pointInPolygonCouncil(markers[0].getLatLng().lat,markers[0].getLatLng().lng);
             		try {
+            			googleReverseGeocode(markers[0].getLatLng().lat,markers[0].getLatLng().lng);
             			getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[0]);
             		} catch (e) {
             			if (options.error){
@@ -239,6 +236,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
             	}).addTo( map );
 				console.log(markerCoords.lat + "   " + markerCoords.lng);  
 				try {
+					googleReverseGeocode(markers[0].getLatLng().lat,markers[0].getLatLng().lng);
 					getDropLocation(markerCoords.lat, markerCoords.lng, markers[0]);  
 				} catch (e) {
 					if (options.error){
