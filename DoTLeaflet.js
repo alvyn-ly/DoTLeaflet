@@ -219,9 +219,9 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 					icon: myIcon
 				}).on('dragend', function(event){
 					//console.log(markers[0].getLatLng().lat + "  " + markers[0].getLatLng().lng);
-					calculateLocation(position.lng, position.lat);
-            		googleReverseGeocode(position.lat,position.lng);//sends up to geocoder, which fires googleReverseGeocodeResult function
-            		pointInPolygonCouncil(position.lat,position.lng);
+					calculateLocation(markers[0].getLatLng().lng, markers[0].getLatLng().lat);
+            		googleReverseGeocode(markers[0].getLatLng().lat,markers[0].getLatLng().lng);//sends up to geocoder, which fires googleReverseGeocodeResult function
+            		pointInPolygonCouncil(markers[0].getLatLng().lat,markers[0].getLatLng().lng);
             		try {
             			getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[0]);
             		} catch (err) {
