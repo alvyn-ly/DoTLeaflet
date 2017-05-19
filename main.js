@@ -13,7 +13,7 @@ requirejs.config({
 	},
 	shim: {
 		'DoT_leaflet': {
-			deps: ['leaflet', 'esri_leaflet', 'googleAPI', 'Leaflet_Google']
+			deps: ['JQuery', 'leaflet', 'esri_leaflet', 'googleAPI', 'Leaflet_Google']
 		},
 		'esri_leaflet': {
 			deps: ['leaflet']
