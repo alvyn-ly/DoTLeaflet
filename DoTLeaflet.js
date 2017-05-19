@@ -79,7 +79,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 		}
 
 		// -----------------------  ESRI OPTIONS ------------------------ //
-		if (options.esriSet != undefined){
+		if (options.esriSet){
 
 			var streetlightWFSURL = 'https://services2.arcgis.com/KCFBdu4OIPKQGsVV/arcgis/rest/services/StreetlightUpdate/FeatureServer/0'; //MUST be https for salesforce to accept
 			var privateStreetsURL = 'https://services2.arcgis.com/KCFBdu4OIPKQGsVV/arcgis/rest/services/private_streets/FeatureServer/0';
@@ -162,6 +162,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
     }
 
 
+
 	/*
 	 * Sets up the functionality for the draggable marker for the streetview. Allows for drag and drop, then repositioning, for updating the streetview location.
 	 * @method addMarkers
@@ -217,13 +218,16 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 					draggable: true,
 					icon: myIcon
 				}).on('dragend', function(event){
-					console.log(markers[0].getLatLng().lat + "  " + markers[0].getLatLng().lng);
-					try {
-						getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[0]);
-					} catch (err) {
-						console.log("getDropLocation() cannot be found.")
-					}
-				}).addTo( map );
+					//console.log(markers[0].getLatLng().lat + "  " + markers[0].getLatLng().lng);
+					calculateLocation(position.lng, position.lat);
+            		googleReverseGeocode(position.lat,position.lng);//sends up to geocoder, which fires googleReverseGeocodeResult function
+            		pointInPolygonCouncil(position.lat,position.lng);
+            		try {
+            			getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[0]);
+            		} catch (err) {
+            			console.log("getDropLocation() cannot be found.")
+            		}
+            	}).addTo( map );
 				console.log(markerCoords.lat + "   " + markerCoords.lng);  
 				try {
 					getDropLocation(markerCoords.lat, markerCoords.lng, markers[0]);  
@@ -362,7 +366,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 					if(e.which == 13) { //if a number is entered into the searchbox, it will attempt to find the shopNo instead. INCOMPLETE UNTIL SHOP DB IS IMPORTED
 						var geocoder;
 						geocoder = new google.maps.Geocoder();
-						if (/^\d+$/.test(searchbox.value)){
+						if (searchbox.value[0] == '#'){
 							console.log("NUMBER!!!");
 							var address = "San Jose State University" + ", San Jose California"
 							var boundSW = google.maps.LatLng(37.2134286,-122.0329773);
@@ -432,6 +436,25 @@ function googleReverseGeocode(passLat, passLng) {
 			}
 		});
 }
+
+function googleReverseGeocodeResult(address) {//does a replace to trim address and puts it into stand loc field
+	if(address.substring(address.length-3,address.length) == "USA") {
+		var nousaAddress = address.replace(", USA","");
+		var nozipAddress = nousaAddress.substring(0,nousaAddress.length-6);
+        var nocityAddress = nozipAddress.replace(", San Jose, CA","");//If it's in another city it will just leave the city
+        zipcodeField.value = "";
+        var zipcode = ((address.split(','))[(address.split(',').length) - 2]).replace(' CA ','');
+        if(typeof zipcode !== "undefined"){ zipcodeField.value = zipcode; }
+    } else {
+        var nocityAddress = address; //If it's in another country, then just spit back the address as is, user can figure it out
+    }
+    try {
+    	passMarkerAddress(nocityAddress);  
+    } catch (err) {
+    	console.log("passMarkerAddress() cannot be found.")
+    } 
+}	
+
 	//END GOOGLE AUTO COMPLETE SCRIPT
 	if (options != undefined){	
 		init(options);
