@@ -224,7 +224,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
             		pointInPolygonCouncil(markers[0].getLatLng().lat,markers[0].getLatLng().lng);
             		try {
             			getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[0]);
-            		} catch (err) {
+            		} catch (e) {
             			console.log("getDropLocation() cannot be found.")
             			console.log("Error", e.stack);
             			console.log("Error", e.name);
