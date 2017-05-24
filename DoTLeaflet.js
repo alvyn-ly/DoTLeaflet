@@ -126,7 +126,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
     	console.log(options.startDate.yyyymmdd());
     	for (var i = 0; i < records1.length; i++){
     		console.log(typeof records1[i].CreatedDate);
-    		console.log(records1[i].CreatedDate);
+    		console.log(rrecords1[i].CreatedDate.substring(0,10) + ">" + options.startDate.yyyymmdd() + (records1[i].CreatedDate.substring(0,10) > options.startDate.yyyymmdd()));
     		if (records1[i].CreatedDate.substring(0,10) > options.startDate.yyyymmdd()){
     			console.log("True");
     		}
