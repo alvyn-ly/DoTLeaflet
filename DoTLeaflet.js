@@ -16,7 +16,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 
 		var projQuery = "Select p.ZipCode__c, p.TrafficCalmingRequestType__c, p.TrafficCalmingProjectType__c, p.TrafficCalmingConcernType__c, p.TrafficCalmingConcernItem__c, p.TrafficAffected__c, p.SystemModstamp, p.Summary__c, p.Status__c,  p.StandardizedLocation__c, p.SignalTimeOfDay__c, p.SignalSideOfStreet__c, p.SignalProjectType__c, p.SignalProblemDirection__c, p.SignalOperationAssignmentCount__c, p.SignalOperationAssignmentCompleteCount__c, p.SignalFundAdjustment__c, p.SignalDesignAssignmentCount__c, p.SignalDesignAssignmentCompleteCount__c, p.SignalDayOfWeek__c, p.SignalCustomerSurveySent__c, p.SignAssignmentCount__c, p.SignAssignmentCompleteCount__c, p.School__c, p.RequesterNotificationDate__c, p.RecordTypeId, p.ReceiveDateTime__c, p.ProjectType__c, p.ProjectLink__c, p.ProjectDurationDays__c, p.Program__c, p.OwnerId, p.Name__c, p.Name, p.MarkingAssignmentCount__c, p.MarkingAssignmentCompleteCount__c, p.MapLocation__c, p.MajorProject__c, p.LastModifiedDate, p.LastModifiedById, p.LastActivityDate, p.IsDeleted, p.Investigator__c, p.Id, p.ITSAssignmentCount__c, p.ITSAssignmentCompleteCount__c, p.HoursSpent__c, p.HeavyEquipmentAssignmentCount__c, p.HeavyEquipmentAssignmentCompleteCount__c, p.GeometricProjectType__c, p.GeometricProjectSource__c, p.GeometricPlanNumber__c, p.Geolocation__Longitude__s, p.Geolocation__Latitude__s, p.ElectricalAssignmentCount__c, p.ElectricalAssignmentCompleteCount__c, p.CreatedDate, p.CreatedById, p.CouncilDistrict__c, p.Coordinator__c, p.Concern__c, p.ChargeNumber__c From Project__c p";
 		if (options.startDate != undefined && options.endDate != undefined){
-			var limit = " Where CreatedDate >= " + options.startDate.substring(0, 10) + " AND CreatedDate <= " + options.endDate.substring(0, 10);
+			var limit = " Where CreatedDate >= " + options.startDate.yyyymmdd() + " AND CreatedDate <= " + options.endDate.yyyymmdd();
 			projQuery = projQuery + limit;
 		}
 		var records = sforce.connection.query(projQuery);
@@ -170,7 +170,19 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
         }        
     }
 
+    Date.prototype.yyyymmdd = function() {
+    	//getMonth() is zero-based
+    	var mm = this.getMonth() + 1;  
+    	var dd = this.getDate();
 
+    	return [this.getFullYear(),
+    	(mm>9 ? '' : '0') + mm,
+    	(dd>9 ? '' : '0') + dd
+    	].join('-');
+    };
+
+    var date = new Date();
+    date.yyyymmdd();
 
 	/*
 	 * Sets up the functionality for the draggable marker for the streetview. Allows for drag and drop, then repositioning, for updating the streetview location.
