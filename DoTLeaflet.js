@@ -1,6 +1,7 @@
 define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 	var init;
 	var map;
+	var projectArray = [];
 	var markers = [], // an array containing all the markers added to the map
 	markersCount = 0; // the number of the added markers
 	
@@ -12,50 +13,12 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 		esriLayer = L.esri.basemapLayer('Topographic');
 		map = L.map( options.div ,{layers: esriLayer}).setView([37.33766995, -121.8874011], 16);
 
-		var projectArray = []; 
-
 		var projQuery = "Select p.ZipCode__c, p.TrafficCalmingRequestType__c, p.TrafficCalmingProjectType__c, p.TrafficCalmingConcernType__c, p.TrafficCalmingConcernItem__c, p.TrafficAffected__c, p.SystemModstamp, p.Summary__c, p.Status__c,  p.StandardizedLocation__c, p.SignalTimeOfDay__c, p.SignalSideOfStreet__c, p.SignalProjectType__c, p.SignalProblemDirection__c, p.SignalOperationAssignmentCount__c, p.SignalOperationAssignmentCompleteCount__c, p.SignalFundAdjustment__c, p.SignalDesignAssignmentCount__c, p.SignalDesignAssignmentCompleteCount__c, p.SignalDayOfWeek__c, p.SignalCustomerSurveySent__c, p.SignAssignmentCount__c, p.SignAssignmentCompleteCount__c, p.School__c, p.RequesterNotificationDate__c, p.RecordTypeId, p.ReceiveDateTime__c, p.ProjectType__c, p.ProjectLink__c, p.ProjectDurationDays__c, p.Program__c, p.OwnerId, p.Name__c, p.Name, p.MarkingAssignmentCount__c, p.MarkingAssignmentCompleteCount__c, p.MapLocation__c, p.MajorProject__c, p.LastModifiedDate, p.LastModifiedById, p.LastActivityDate, p.IsDeleted, p.Investigator__c, p.Id, p.ITSAssignmentCount__c, p.ITSAssignmentCompleteCount__c, p.HoursSpent__c, p.HeavyEquipmentAssignmentCount__c, p.HeavyEquipmentAssignmentCompleteCount__c, p.GeometricProjectType__c, p.GeometricProjectSource__c, p.GeometricPlanNumber__c, p.Geolocation__Longitude__s, p.Geolocation__Latitude__s, p.ElectricalAssignmentCount__c, p.ElectricalAssignmentCompleteCount__c, p.CreatedDate, p.CreatedById, p.CouncilDistrict__c, p.Coordinator__c, p.Concern__c, p.ChargeNumber__c From Project__c p";
-		if (options.startDate != undefined && options.endDate != undefined){
-			var limit = " Where CreatedDate >= " + options.startDate.yyyymmdd() + " AND CreatedDate <= " + options.endDate.yyyymmdd();
-			projQuery = projQuery + limit;
-		}
 		var records = sforce.connection.query(projQuery);
 		var records1 = records.getArray('records');
 
 		if (options.projectsLayer){
-
-			customMarker = L.Marker.extend({
-				options: { 
-					allData: "",
-				}
-			});
-			for (var i = 0; i < records1.length; i++){
-				myIcon = L.icon({
-					iconUrl: 'https://i.imgur.com/IiO1b0k.png',
-					iconSize: [40, 40], // size of the icon
-					iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
-					popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
-				});
-				var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
-				.bindPopup( records1[i].Name__c + "" )
-				.on('click', function () {
-					this.bounce(3);
-					//console.log((this.options.allData));
-					try {
-						pushData(this.options.allData);
-					} catch(e) {
-						if (options.error){
-							console.log("pushData() has an error.")
-							console.log("Error", e.stack);
-							console.log("Error", e.name);
-							console.log("Error", e.message);
-						}
-					}
-				});
-				projectArray.push(marker);
-			}
-			var projects = L.layerGroup(projectArray);
-			projects.addTo(map);
+			createProjMarkers();
 		}
 
 		if (options.search){
@@ -145,6 +108,54 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
         	});
         }
         // -------------------- END ESRI OPTIONS ---------------------- //
+    }
+
+    function createProjMarkers(){
+    	var filter = false;
+    	if (options.startDate != undefined && options.endDate != undefined){
+    		filter = true;
+    	}
+
+    	customMarker = L.Marker.extend({
+    		options: { 
+    			allData: "",
+    		}
+    	});
+    	for (var i = 0; i < records1.length; i++){
+    		comsole.log(records1[i].CreatedDate);
+    		if (records1[i].CreatedDate > options.startDate){
+    			console.log("True");
+    		}
+    		if (filter){
+
+    		} else {
+
+    		}
+    		myIcon = L.icon({
+    			iconUrl: 'https://i.imgur.com/IiO1b0k.png',
+				iconSize: [40, 40], // size of the icon
+				iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+				popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+			});
+    		var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
+    		.bindPopup( records1[i].Name__c + "" )
+    		.on('click', function () {
+    			this.bounce(3);
+    			try {
+    				pushData(this.options.allData);
+    			} catch(e) {
+    				if (options.error){
+    					console.log("pushData() has an error.")
+    					console.log("Error", e.stack);
+    					console.log("Error", e.name);
+    					console.log("Error", e.message);
+    				}
+    			}
+    		});
+    		projectArray.push(marker);
+    	}
+    	var projects = L.layerGroup(projectArray);
+    	projects.addTo(map);
     }
 
     //use to add or change fill color of incorporated polygon, fires on basemap change
