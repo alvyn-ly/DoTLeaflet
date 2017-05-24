@@ -123,8 +123,9 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
     		}
     	});
     	for (var i = 0; i < records1.length; i++){
+    		console.log(typeof records1[i].CreatedDate);
     		console.log(records1[i].CreatedDate);
-    		if (records1[i].CreatedDate > options.startDate){
+    		if (records1[i].CreatedDate.substring(0,10) > options.startDate){
     			console.log("True");
     		}
     		if (filter){
