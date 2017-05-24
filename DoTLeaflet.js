@@ -125,7 +125,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
     	for (var i = 0; i < records1.length; i++){
     		console.log(typeof records1[i].CreatedDate);
     		console.log(records1[i].CreatedDate);
-    		if (records1[i].CreatedDate.substring(0,10) > options.startDate){
+    		if (records1[i].CreatedDate.substring(0,10) > options.startDate.yyyymmdd()){
     			console.log("True");
     		}
     		if (filter){
@@ -193,9 +193,6 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
     	(dd>9 ? '' : '0') + dd
     	].join('-');
     };
-
-    var date = new Date();
-    date.yyyymmdd();
 
 	/*
 	 * Sets up the functionality for the draggable marker for the streetview. Allows for drag and drop, then repositioning, for updating the streetview location.
