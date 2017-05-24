@@ -123,7 +123,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
     		}
     	});
     	for (var i = 0; i < records1.length; i++){
-    		comsole.log(records1[i].CreatedDate);
+    		console.log(records1[i].CreatedDate);
     		if (records1[i].CreatedDate > options.startDate){
     			console.log("True");
     		}
