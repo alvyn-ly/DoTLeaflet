@@ -122,6 +122,8 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
     			allData: "",
     		}
     	});
+
+    	console.log(options.startDate.yyyymmdd());
     	for (var i = 0; i < records1.length; i++){
     		console.log(typeof records1[i].CreatedDate);
     		console.log(records1[i].CreatedDate);
