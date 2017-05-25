@@ -126,21 +126,12 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
     	for (var i = 0; i < records1.length; i++){
     		if (filter){
     			if (records1[i].CreatedDate.substring(0,10) > options.endDate.yyyymmdd() && records1[i].CreatedDate.substring(0,10) < options.startDate.yyyymmdd()){ //checks if markers fall between date range.
-    				if (records1[i].StandardizedLocation__c === options.location){
-    					myIcon = L.icon({
-    						iconUrl: 'https://i.imgur.com/Jk4Naws.png',
-							iconSize: [40, 40], // size of the icon
-							iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
-							popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
-						});
-    				} else {
-    					myIcon = L.icon({
-    						iconUrl: 'https://i.imgur.com/IiO1b0k.png',
-							iconSize: [40, 40], // size of the icon
-							iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
-							popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
-						});
-    				}
+    				myIcon = L.icon({
+    					iconUrl: 'https://i.imgur.com/IiO1b0k.png',
+						iconSize: [40, 40], // size of the icon
+						iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+						popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+					});
     				var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
     				.bindPopup( records1[i].Name__c + "" )
     				.on('click', function () {
@@ -159,12 +150,22 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
     				projectArray.push(marker);
     			} 
     		} else {
-    			myIcon = L.icon({
-    				iconUrl: 'https://i.imgur.com/IiO1b0k.png',
-					iconSize: [40, 40], // size of the icon
-					iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
-					popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
-				});
+    			if (records1[i].StandardizedLocation__c === options.location){
+    				myIcon = L.icon({
+    					iconUrl: 'https://i.imgur.com/Jk4Naws.png',
+						iconSize: [40, 40], // size of the icon
+						iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+						popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+					});
+    			} else {
+    				myIcon = L.icon({
+    					iconUrl: 'https://i.imgur.com/IiO1b0k.png',
+						iconSize: [40, 40], // size of the icon
+						iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+						popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+					});
+    			}    			
+
     			var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
     			.bindPopup( records1[i].Name__c + "" )
     			.on('click', function () {
