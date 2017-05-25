@@ -123,40 +123,67 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
     		}
     	});
 
-    	console.log(options.startDate.yyyymmdd());
     	for (var i = 0; i < records1.length; i++){
-    		console.log(typeof records1[i].CreatedDate);
-    		console.log(records1[i].CreatedDate.substring(0,10) + ">" + options.endDate.yyyymmdd() + (records1[i].CreatedDate.substring(0,10) > options.endDate.yyyymmdd()));
-    		if (records1[i].CreatedDate.substring(0,10) > options.endDate.yyyymmdd() && records1[i].CreatedDate.substring(0,10) < options.startDate.yyyymmdd()){
-    			console.log("True");
-    		}
     		if (filter){
-
-    		} else {
-
-    		}
-    		myIcon = L.icon({
-    			iconUrl: 'https://i.imgur.com/IiO1b0k.png',
-				iconSize: [40, 40], // size of the icon
-				iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
-				popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
-			});
-    		var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
-    		.bindPopup( records1[i].Name__c + "" )
-    		.on('click', function () {
-    			this.bounce(3);
-    			try {
-    				pushData(this.options.allData);
-    			} catch(e) {
-    				if (options.error){
-    					console.log("pushData() has an error.")
-    					console.log("Error", e.stack);
-    					console.log("Error", e.name);
-    					console.log("Error", e.message);
+    			if (records1[i].CreatedDate.substring(0,10) > options.endDate.yyyymmdd() && records1[i].CreatedDate.substring(0,10) < options.startDate.yyyymmdd()){ //checks if markers fall between date range.
+    				if (records1[i].StandardizedLocation__c === options.location){
+    					myIcon = L.icon({
+    						iconUrl: 'https://i.imgur.com/Jk4Naws.png',
+							iconSize: [40, 40], // size of the icon
+							iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+							popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+						});
+    				} else {
+    					myIcon = L.icon({
+    						iconUrl: 'https://i.imgur.com/IiO1b0k.png',
+							iconSize: [40, 40], // size of the icon
+							iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+							popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+						});
     				}
-    			}
-    		});
-    		projectArray.push(marker);
+    				var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
+    				.bindPopup( records1[i].Name__c + "" )
+    				.on('click', function () {
+    					this.bounce(3);
+    					try {
+    						pushData(this.options.allData);
+    					} catch(e) {
+    						if (options.error){
+    							console.log("pushData() has an error.")
+    							console.log("Error", e.stack);
+    							console.log("Error", e.name);
+    							console.log("Error", e.message);
+    						}
+    					}
+    				});
+    				projectArray.push(marker);
+    			} 
+    		} else {
+    			myIcon = L.icon({
+    				iconUrl: 'https://i.imgur.com/IiO1b0k.png',
+					iconSize: [40, 40], // size of the icon
+					iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+					popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+				});
+    			var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
+    			.bindPopup( records1[i].Name__c + "" )
+    			.on('click', function () {
+    				this.bounce(3);
+    				try {
+    					pushData(this.options.allData);
+    				} catch(e) {
+    					if (options.error){
+    						console.log("pushData() has an error.")
+    						console.log("Error", e.stack);
+    						console.log("Error", e.name);
+    						console.log("Error", e.message);
+    					}
+    				}
+    			});
+    			projectArray.push(marker);
+    		}
+
+
     	}
     	var projects = L.layerGroup(projectArray);
     	projects.addTo(map);
