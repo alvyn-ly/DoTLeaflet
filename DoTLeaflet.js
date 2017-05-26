@@ -539,6 +539,7 @@ function googleReverseGeocodeResult(address) {//does a replace to trim address a
 
 reloadMap = function reload(){
 	if (map != undefined) { map.remove(); }
+	projectArray.length = 0;
 	init(options);
 }
 
