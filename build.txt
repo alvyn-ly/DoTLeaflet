@@ -10,6 +10,7 @@ LoadCSS.js
 leaflet.js
 esri_leaflet.js
 Leaflet_Google.js
+leafletLib.js
 DoTLeaflet.js
 smoothMarkerBouncing.js
 main.js
