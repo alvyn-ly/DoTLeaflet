@@ -535,6 +535,12 @@ function googleReverseGeocodeResult(address) {//does a replace to trim address a
     } 
 }	
 
+
+function reloadMap(){
+	if (map != undefined) { map.remove(); }
+	init(options);
+}
+
 	//END GOOGLE AUTO COMPLETE SCRIPT
 	if (options != undefined){	
 		init(options);
