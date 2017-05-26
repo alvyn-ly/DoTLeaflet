@@ -1,4 +1,5 @@
 define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
+	var reloadMap;
 	var init;
 	var map;
 	var projectArray = [];
@@ -536,7 +537,7 @@ function googleReverseGeocodeResult(address) {//does a replace to trim address a
 }	
 
 
-function reloadMap(){
+reloadMap = function reload(){
 	if (map != undefined) { map.remove(); }
 	init(options);
 }
