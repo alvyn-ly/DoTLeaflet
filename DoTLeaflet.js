@@ -1,5 +1,5 @@
+var reloadMap;
 define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
-	var reloadMap;
 	var init;
 	var map;
 	var projectArray = [];
