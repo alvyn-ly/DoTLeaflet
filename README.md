@@ -18,7 +18,7 @@ DoT Leaflet is always a work in progress as more functionality will be always be
 
 Needless to say, DoT Leaflet is designed to be used almost exclusively for Salesforce. While not locked to Salesforce, the code will need some (very slight) modification to account for non-Visualforce platforms.
 
-Implementation requires that there be an accessible directory to store all the required source files. Github, SVN, or some other repository that can be directly access by means of a singular link 
+Implementation requires that there be an accessible directory to store all the required source files. This may include Github, SVN, or some other repository that can be directly accessed by means of a singular link to that file. 
 
 Example: `https://rawgit.com/alvyn-ly/DoTLeaflet/Release-1.0/main.js`
 
@@ -59,7 +59,19 @@ The Options JSON implementation will look similar to this:
   var options = {SessionID:'{!$Api.Session_ID}', div:"mapContainer"};
 </script>
 ```
+**It is important to note that any direct interactions or modifications done to the map must be done after the DOM is loaded to avoid any race conditions and errors, preferably with `window.onload = function(){}`. Generally there should NOT be any direct DoT Leaflet map interaction as there are declared functions that are safe for use to pull/push info into the map (we will get more into detail about these next section), but if anybody wants to get creative, be warned.**
+
 
 **End Page Implementation – RequireJS and Div tags**
+
+To simplify resource management and including all the different JavaScript sources to make DoT Leaflet work, we employ the use of RequireJS to dynamically load the JavaScript resources automatically without having the developer manually add all 6+ JavaScript include tags.
+
+To employ RequireJS (and in turn, all of the other JavaScript resources), a line is added after all of the in-line JavaScript, or at least after the `options` JSON is declared.
+
+```javascript
+<script data-main="link to main.js" src="link to require.js">
+</script>
+```
+
 
 
