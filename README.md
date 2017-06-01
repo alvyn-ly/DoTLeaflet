@@ -29,6 +29,7 @@ The developer implementing this toolkit must also have API access and general re
 Implementation is broken down into three requirements across the Visualforce page the map is being implemented in.
 
 **Early Page Implementation - Including Google Map and Salesforce resources**
+
 To allow for specific functionality to exist within the DoT Leaflet toolkit, we must include with of these resources to pre-emptively enable their support.
 
 Before implementing anything DoT Salesforce related, as a part of the header, or at least before the next step, we want to include these lines of code:
@@ -48,6 +49,7 @@ This will include the Google Maps API for the purpose of search bar functionalit
 This must be included externally and preemptively due to RequireJS’s lack of support for non-local resources.
 
 **Mid Page Implementation - Setting an Options JSON**
+
 DoT Leaflet, upon load, checks for a pre-defined JSON object by the name of `options`.
 Simply creating a JSON object in a script tag with an entry for `div` and `SessionID` satisfies all of the requirements for this section, but there are many more options that can be set. We will go over those options in the next section.
 
@@ -59,4 +61,5 @@ var options = {SessionID:'{!$Api.Session_ID}', div:"mapContainer"};
 ```
 
 **End Page Implementation – RequireJS and Div tags**
+
 
