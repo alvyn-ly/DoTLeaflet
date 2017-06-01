@@ -1,10 +1,10 @@
 # DoT Leaflet Readme
 
-I.  Description
-II.   Requirements, Preparation, and Set-up
-III.   How to use DoT Leaflet
-IV.   Options, Functions, and other features
-V.   To-Do List and Comments
+I. Description
+II. Requirements, Preparation, and Set-up
+III. How to use DoT Leaflet
+IV. Options, Functions, and other features
+V. To-Do List and Comments
 
 
 ## I.    DESCRIPTION
