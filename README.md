@@ -28,7 +28,7 @@ The developer implementing this toolkit must also have API access and general re
 
 Implementation is broken down into three requirements across the Visualforce page the map is being implemented in.
 
-**Early Page Implementation - Including Google Map and Salesforce resources**
+###**Early Page Implementation - Including Google Map and Salesforce resources**
 
 To allow for specific functionality to exist within the DoT Leaflet toolkit, we must include with of these resources to pre-emptively enable their support.
 
@@ -48,7 +48,7 @@ These lines will allow for Salesforce API access and enable the use of the Sessi
 This will include the Google Maps API for the purpose of search bar functionality. 
 This must be included externally and preemptively due to RequireJS’s lack of support for non-local resources.
 
-**Mid Page Implementation - Setting an Options JSON**
+###**Mid Page Implementation - Setting an Options JSON**
 
 DoT Leaflet, upon load, checks for a pre-defined JSON object by the name of `options`.
 Simply creating a JSON object in a script tag with an entry for `div` and `SessionID` satisfies all of the requirements for this section, but there are many more options that can be set. We will go over those options in the next section.
@@ -62,7 +62,7 @@ The Options JSON implementation will look similar to this:
 **It is important to note that any direct interactions or modifications done to the map must be done after the DOM is loaded to avoid any race conditions and errors, preferably with `window.onload = function(){}`. Generally there should NOT be any direct DoT Leaflet map interaction as there are declared functions that are safe for use to pull/push info into the map (we will get more into detail about these next section), but if anybody wants to get creative, be warned.**
 
 
-**End Page Implementation – RequireJS and Div tags**
+###**End Page Implementation – RequireJS and Div tags**
 
 To simplify resource management and including all the different JavaScript sources to make DoT Leaflet work, we employ the use of RequireJS to dynamically load the JavaScript resources automatically without having the developer manually add all 6+ JavaScript include tags.
 
