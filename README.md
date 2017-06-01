@@ -56,7 +56,7 @@ Simply creating a JSON object in a script tag with an entry for `div` and `Sessi
 The Options JSON implementation will look similar to this:
 ```javascript
 <script type="text/javascript">
-var options = {SessionID:'{!$Api.Session_ID}', div:"mapContainer"};
+  var options = {SessionID:'{!$Api.Session_ID}', div:"mapContainer"};
 </script>
 ```
 
