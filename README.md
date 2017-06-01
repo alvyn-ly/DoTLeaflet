@@ -1,4 +1,4 @@
-#DoT Leaflet Readme
+# DoT Leaflet Readme
 
 I.   Description
 II.    Requirements, Preparation, and Set-up
@@ -7,14 +7,14 @@ IV.    Options, Functions, and other features
 V.    To-Do List and Comments
 
 
-##I.    DESCRIPTION
+## I.    DESCRIPTION
 
 DoT Leaflet is a pre-customized intermediary toolkit that takes advantage of the Dept of Transportation's Salesforce resources to simplify map implementation. It pre-loads tools for use that, with the set of an option, allows for additional functionality depending on where it is needed.
 
 DoT Leaflet is always a work in progress as more functionality will be always be requested and more unusual cases need to be accounted for.
 
 
-##II.    REQUIREMENTS, SET UP, AND PREPARATION
+## II.    REQUIREMENTS, SET UP, AND PREPARATION
 
 Needless to say, DoT Leaflet is designed to be used almost exclusively for Salesforce. While not locked to Salesforce, the code will need some (very slight) modification to account for non-Visualforce platforms.
 
@@ -24,7 +24,7 @@ Example: `https://rawgit.com/alvyn-ly/DoTLeaflet/Release-1.0/main.js`
 
 The developer implementing this toolkit must also have API access and general read capabilities across the intended Salesforce platform.
 
-##III.    HOW TO USE DOT LEAFLET
+## III.    HOW TO USE DOT LEAFLET
 
 Implementation is broken down into three requirements across the Visualforce page the map is being implemented in.
 
