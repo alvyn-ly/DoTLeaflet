@@ -80,6 +80,6 @@ Inside the HTML markup, we want to add a new Div that will hold the map. Previou
 
 OR
 
-<div class=" mapContainer" id=" mapContainer" style="height:300px; "></div>
+<div class="mapContainer" id="mapContainer" style="height:300px; "></div>
 ````
 
