@@ -1,20 +1,20 @@
 # DoT Leaflet Readme
 
 1. Description
-2. Requirements, Preparation, and Set-up
+2. Requirements, Preparation, and Setup
 3. How to use DoT Leaflet
 4. Options, Functions, and other features
 5. To-Do List and Comments
 
 
-## 1.    DESCRIPTION
+## 1.    Description
 
 DoT Leaflet is a pre-customized intermediary toolkit that takes advantage of the Dept of Transportation's Salesforce resources to simplify map implementation. It pre-loads tools for use that, with the set of an option, allows for additional functionality depending on where it is needed.
 
 DoT Leaflet is always a work in progress as more functionality will be always be requested and more unusual cases need to be accounted for.
 
 
-## 2.    REQUIREMENTS, SET UP, AND PREPARATION
+## 2.    Requirements, Preparations, and Setup
 
 Needless to say, DoT Leaflet is designed to be used almost exclusively for Salesforce. While not locked to Salesforce, the code will need some (very slight) modification to account for non-Visualforce platforms.
 
@@ -24,7 +24,7 @@ Example: `https://rawgit.com/alvyn-ly/DoTLeaflet/Release-1.0/main.js`
 
 The developer implementing this toolkit must also have API access and general read capabilities across the intended Salesforce platform.
 
-## 3.    HOW TO USE DOT LEAFLET
+## 3.    How To Use DoT Leaflet
 
 Implementation is broken down into three requirements across the Visualforce page the map is being implemented in.
 
@@ -64,14 +64,22 @@ The Options JSON implementation will look similar to this:
 
 ### **End Page Implementation – RequireJS and Div tags**
 
-To simplify resource management and including all the different JavaScript sources to make DoT Leaflet work, we employ the use of RequireJS to dynamically load the JavaScript resources automatically without having the developer manually add all 6+ JavaScript include tags.
+To simplify resource management and including all the different JavaScript sources to make DoT Leaflet work, we employ the use of RequireJS to dynamically load the JavaScript resources automatically without having the developer manually add all various JavaScript include tags.
 
 To employ RequireJS (and in turn, all of the other JavaScript resources), a line is added after all of the in-line JavaScript, or at least after the `options` JSON is declared.
 
 ```javascript
-<script data-main="link to main.js" src="link to require.js">
+<script data-main="link/to/main.js" src="link/to/require.js">
 </script>
 ```
 
+Inside the HTML markup, we want to add a new Div that will hold the map. Previously, in the Mid Page Implementation, we had the example options look for a Div class named “mapContainer”, so we will use that. It is important to also declare a specific Div size and dimensions, otherwise the Leaflet map will exhibit strange behavior (i.e. not showing up or filling entire page).
 
+````html
+<apex:outputPanel layout="block" id="mapContainer" style="height: 400px;" styleClass></apex:outputPanel>
+
+OR
+
+<div class=" mapContainer" id=" mapContainer" style="height:300px; "></div>
+````
 
