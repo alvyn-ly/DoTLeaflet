@@ -90,8 +90,8 @@ In the `options` JSON, the currently available customizations are available and 
 ***Bolded options have additional functionalities explained in the following section**
 
 Option | Description | Input | Required?
---- | --- | --- | ---
-SessionID | Salesforce API Session Key | '{!$Api.Session_ID}' | Yes
+--- | --- | --- | :---:
+SessionID | Salesforce API Session Key | `'{!$Api.Session_ID}'` | Yes
 Div | Name of Div Container for Map | String, name of Div | Yes
 **search** | Search bar w/ Street and Shop filter | Boolean | No
 route | Routing service with UI, Beta | Boolean | No
@@ -107,9 +107,7 @@ location | Current objects location, used to change icon color to differentiate 
 esriSet | **NOT WORKING** Extra Esri map layers, council zones, streetlights, etc | Boolean | No
 error | Enables the console error outputs for debugging purposes | Boolean | No
 
-
-
-
+DoT Leaflet also comes with some reserved function names that can be used to view and/or manipulate data for the developer, allowing for functionality that does not exist in the toolkit to be implemented outside to the developer’s needs.
 
 
 
