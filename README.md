@@ -100,6 +100,15 @@ layerMenu | Menu to view/manage/change available layers | Boolean | No
 **projectsLayer** | Queries all Projects entries and places on map | Boolean | No
 startDate | Limits projectLayer’s search to dates before this time | Date object | No
 endDate | Limits projectLayer’s search to dates after this time | Date object | No
+lat | Default starting latitude | Float | No
+lng | Default starting longitude | Float | No
+zoom | Default zoom setting | Integer | No
+location | Current objects location, used to change icon color to differentiate markers. | String | No
+esriSet | **NOT WORKING** Extra Esri map layers, council zones, streetlights, etc | Boolean | No
+error | Enables the console error outputs for debugging purposes | Boolean | No
+
+
+
 
 
 
