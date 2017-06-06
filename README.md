@@ -90,7 +90,7 @@ In the `options` JSON, the currently available customizations are available and 
 ***Bolded options have additional functionalities explained in the following section**
 
 Option | Description | Input | Required?
---- | --- | --- | :---:
+:---: | --- | :---: | :---:
 SessionID | Salesforce API Session Key | `'{!$Api.Session_ID}'` | Yes
 Div | Name of Div Container for Map | String, name of Div | Yes
 **search** | Search bar w/ Street and Shop filter | Boolean | No
