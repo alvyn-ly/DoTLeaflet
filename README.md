@@ -87,7 +87,7 @@ OR
 DoT Leaflet comes with an easily expandable list of options that attempts to cover most if not all use cases it may be found doing. 
 In the `options` JSON, the currently available customizations are available and are set by their respective inputs:
 
-**Bolded options have additional functionalities explained in the following section**
+***Bolded options have additional functionalities explained in the following section**
 
 Option | Description | Input | Required?
 --- | --- | --- | ---
@@ -98,6 +98,9 @@ route | Routing service with UI, Beta | Boolean | No
 layerMenu | Menu to view/manage/change available layers | Boolean | No
 **dragMarker** | Drag-able icon to place on location, returns data | Boolean | No
 **projectsLayer** | Queries all Projects entries and places on map | Boolean | No
+startDate | Limits projectLayer’s search to dates before this time | Date object | No
+endDate | Limits projectLayer’s search to dates after this time | Date object | No
+
 
 
 
