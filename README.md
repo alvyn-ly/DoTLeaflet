@@ -82,7 +82,6 @@ OR
 
 <div class="mapContainer" id="mapContainer" style="height:300px; "></div>
 ```
-
 ## 4. Options, Functions, and Other Features
 
 DoT Leaflet comes with an easily expandable list of options that attempts to cover most if not all use cases it may be found doing. 
@@ -92,6 +91,10 @@ Option | Description | Input | Required?
 --- | --- | --- | ---
 SessionID | Salesforce API Session Key | '{!$Api.Session_ID}' | Yes
 Div | Name of Div Container for Map | String, name of Div | Yes
+search | Search bar w/ Street and Shop filter | Boolean | No
+route | Routing service with UI, Beta | Boolean | No
+layerMenu | Menu to view/manage/change available layers | Boolean | No
+dragMarker | Drag-able icon to place on location, returns data | Boolean | No
 
 
 
