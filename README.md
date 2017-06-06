@@ -75,22 +75,23 @@ To employ RequireJS (and in turn, all of the other JavaScript resources), a line
 
 Inside the HTML markup, we want to add a new Div that will hold the map. Previously, in the *Mid Page Implementation*, we had the example options look for a Div class named “mapContainer”, so we will use that. It is important to also declare a specific Div size and dimensions, otherwise the Leaflet map will exhibit strange behavior (i.e. not showing up or filling entire page).
 
-````html
+```html
 <apex:outputPanel layout="block" id="mapContainer" style="height: 400px;" styleClass></apex:outputPanel>
 
 OR
 
 <div class="mapContainer" id="mapContainer" style="height:300px; "></div>
-````
+```
+
 ## 4. Options, Functions, and Other Features
 
 DoT Leaflet comes with an easily expandable list of options that attempts to cover most if not all use cases it may be found doing. 
 In the `options` JSON, the currently available customizations are available and are set by their respective inputs:
 
-Option | Input | Required?
---- | --- | ---
-SessionID | '{!$Api.Session_ID}' | Yes
-Div | String, name of Div | Yes
+Option | Description | Input | Required?
+--- | --- | --- | ---
+SessionID | Salesforce API Session Key | '{!$Api.Session_ID}' | Yes
+Div | Name of Div Container for Map | String, name of Div | Yes
 
 
 
