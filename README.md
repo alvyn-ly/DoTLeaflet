@@ -9,7 +9,7 @@
 
 ## 1.    Description
 
-DoT Leaflet is a pre-customized intermediary toolkit that takes advantage of the Dept of Transportation's Salesforce resources to simplify map implementation. It pre-loads tools for use that, with the set of an option, allows for additional functionality depending on where it is needed.
+DoT Leaflet is a pre-customized intermediary toolkit that takes advantage of the Dept of Transportation's Salesforce resources to simplify Leaflet map implementation. It pre-loads tools for use that, with the set of an option, allows for additional functionality depending on where it is needed.
 
 DoT Leaflet is always a work in progress as more functionality will be always be requested and more unusual cases need to be accounted for.
 
@@ -89,17 +89,17 @@ In the `options` JSON, the currently available customizations are available and 
 
 ***Bolded options have additional functionalities explained in the following section**
 
-Option | Description | Input | Required?
+Option | Description | Input Type | Required?
 :---: | --- | :---: | :---:
 SessionID | Salesforce API Session Key | `'{!$Api.Session_ID}'` | Yes
-Div | Name of Div Container for Map | String, name of Div | Yes
+Div | Name of Div Container for Map | String | Yes
 **search** | Search bar w/ Street and Shop filter | Boolean | No
 route | Routing service with UI, Beta | Boolean | No
 layerMenu | Menu to view/manage/change available layers | Boolean | No
 **dragMarker** | Drag-able icon to place on location, returns data | Boolean | No
 **projectsLayer** | Queries all Projects entries and places on map | Boolean | No
-startDate | Limits projectLayer’s search to dates before this time | Date object | No
-endDate | Limits projectLayer’s search to dates after this time | Date object | No
+startDate | Limits projectLayer’s search to dates before this time | Date | No
+endDate | Limits projectLayer’s search to dates after this time | Date | No
 lat | Default starting latitude | Float | No
 lng | Default starting longitude | Float | No
 zoom | Default zoom setting | Integer | No
@@ -107,7 +107,19 @@ location | Current objects location, used to change icon color to differentiate 
 esriSet | **NOT WORKING** Extra Esri map layers, council zones, streetlights, etc | Boolean | No
 error | Enables the console error outputs for debugging purposes | Boolean | No
 
+
 DoT Leaflet also comes with some reserved function names that can be used to view and/or manipulate data for the developer, allowing for functionality that does not exist in the toolkit to be implemented outside to the developer’s needs.
+
+`passMarkerAddress()`:
+
+
+`pushData()`:
+
+
+`getDropLocation()`:
+
+
+`setAddressInfo()`:
 
 
 
