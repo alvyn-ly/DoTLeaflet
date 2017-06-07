@@ -1,5 +1,7 @@
 # DoT Leaflet Readme
 
+![Example Picture](https://i.imgur.com/zroqwWP.png)
+
 1. Description
 2. Requirements, Preparation, and Setup
 3. How to use DoT Leaflet
