@@ -104,22 +104,26 @@ lat | Default starting latitude | Float | No
 lng | Default starting longitude | Float | No
 zoom | Default zoom setting | Integer | No
 location | Current objects location, used to change icon color to differentiate markers. | String | No
-esriSet | **NOT WORKING** Extra Esri map layers, council zones, streetlights, etc | Boolean | No
+esriSet | **-NOT WORKING-** Extra Esri map layers, council zones, streetlights, etc | Boolean | No
 error | Enables the console error outputs for debugging purposes | Boolean | No
 
 
 DoT Leaflet also comes with some reserved function names that can be used to view and/or manipulate data for the developer, allowing for functionality that does not exist in the toolkit to be implemented outside to the developer’s needs.
 
-`passMarkerAddress()`:
-
+`passMarkerAddress(address)`: 
+ - This is called when Google’s Search Bar reverse-geocodes a Marker’s given set of coordinates and locates a standardized location for that data.
+ - An address in the form of a `String` will be passed into this function.
 
 `pushData()`:
-
+ - This is called when the on-click event is triggered on a marker and gives the full set of info related to the marker’s object it represents.]
+ - A JSON with all the attributes of the marker’s object will be passed into the function.
 
 `getDropLocation()`:
-
+ - This is called when the draggable Marker is placed anywhere on the map, and will give the marker’s coordinates and the marker itself.
+ - A Latitude, Longitude, and Marker object will be passed into the function, in that order.
 
 `setAddressInfo()`:
-
+ - This is called when Google Search Bar’s geocoder returns a result depending on what is typed into the Search Bar. It provides the Longitude, Latitude, Address, and Address Components.
+ - A Longitude, Latitude, Address, and Address Components will be passed into the function, in that order.
 
 
