@@ -117,7 +117,7 @@ DoT Leaflet also comes with some reserved function names that can be used to vie
  - An address in the form of a `String` will be passed into this function.
 
 `pushData()`:
- - This is called when the on-click event is triggered on a marker and gives the full set of info related to the marker’s object it represents.]
+ - This is called when the on-click event is triggered on a marker and gives the full set of info related to the marker’s object it represents.
  - A JSON with all the attributes of the marker’s object will be passed into the function.
 
 `getDropLocation()`:
