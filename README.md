@@ -135,7 +135,7 @@ Map To-do List
 
 - Driving Route overlay. Point A to Point B where existing. RESOURCE FOUND, WAITING ON FULL IMPLEMENTATION
 - Different Project Layers (Ask Paolo or Robert)
-	- Icon Templates with color-fill RESOURCE FOUND, WAITING ON IMPLEMENTATION
+- Icon Templates with color-fill RESOURCE FOUND, WAITING ON IMPLEMENTATION
 - Search by Shop (Future)
 
 
