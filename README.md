@@ -128,4 +128,21 @@ DoT Leaflet also comes with some reserved function names that can be used to vie
  - This is called when Google Search Bar’s geocoder returns a result depending on what is typed into the Search Bar. It provides the Longitude, Latitude, Address, and Address Components.
  - A Longitude, Latitude, Address, and Address Components will be passed into the function, in that order.
 
+## 5.    To-Do List and Comments
 
+Map To-do List
+
+
+- Driving Route overlay. Point A to Point B where existing. RESOURCE FOUND, WAITING ON FULL IMPLEMENTATION
+- Different Project Layers (Ask Paolo or Robert)
+	- Icon Templates with color-fill RESOURCE FOUND, WAITING ON IMPLEMENTATION
+- Search by Shop (Future)
+
+
+----------- NEW PROJECT TASKS -----------
+
+- Re-implement the 'click for info' function for markers. Div-markers, preferably.
+- Find a fix for the esri special layers.
+
+
+Credit is given where credit is due, I take no credit for the base resources this toolkit makes use of.
