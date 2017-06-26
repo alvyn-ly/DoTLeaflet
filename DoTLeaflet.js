@@ -1,5 +1,5 @@
 var reloadMap;
-define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
+define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], function(JQuery, leafletLib) {
 	var init;
 	var map;
 	var projectArray = [];
@@ -14,8 +14,11 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 
 		esriLayer = L.esri.basemapLayer('Topographic');
 		map = L.map( options.div ,{layers: esriLayer}).setView([37.33766995, -121.8874011], 16);
+		map.scrollWheelZoom.disable();
+		map.on('focus', function() { map.scrollWheelZoom.enable(); });
+		map.on('blur', function() { map.scrollWheelZoom.disable(); });
 
-		var projQuery = "Select p.ZipCode__c, p.TrafficCalmingRequestType__c, p.TrafficCalmingProjectType__c, p.TrafficCalmingConcernType__c, p.TrafficCalmingConcernItem__c, p.TrafficAffected__c, p.SystemModstamp, p.Summary__c, p.Status__c,  p.StandardizedLocation__c, p.SignalTimeOfDay__c, p.SignalSideOfStreet__c, p.SignalProjectType__c, p.SignalProblemDirection__c, p.SignalOperationAssignmentCount__c, p.SignalOperationAssignmentCompleteCount__c, p.SignalFundAdjustment__c, p.SignalDesignAssignmentCount__c, p.SignalDesignAssignmentCompleteCount__c, p.SignalDayOfWeek__c, p.SignalCustomerSurveySent__c, p.SignAssignmentCount__c, p.SignAssignmentCompleteCount__c, p.School__c, p.RequesterNotificationDate__c, p.RecordTypeId, p.ReceiveDateTime__c, p.ProjectType__c, p.ProjectLink__c, p.ProjectDurationDays__c, p.Program__c, p.OwnerId, p.Name__c, p.Name, p.MarkingAssignmentCount__c, p.MarkingAssignmentCompleteCount__c, p.MapLocation__c, p.MajorProject__c, p.LastModifiedDate, p.LastModifiedById, p.LastActivityDate, p.IsDeleted, p.Investigator__c, p.Id, p.ITSAssignmentCount__c, p.ITSAssignmentCompleteCount__c, p.HoursSpent__c, p.HeavyEquipmentAssignmentCount__c, p.HeavyEquipmentAssignmentCompleteCount__c, p.GeometricProjectType__c, p.GeometricProjectSource__c, p.GeometricPlanNumber__c, p.Geolocation__Longitude__s, p.Geolocation__Latitude__s, p.ElectricalAssignmentCount__c, p.ElectricalAssignmentCompleteCount__c, p.CreatedDate, p.CreatedById, p.CouncilDistrict__c, p.Coordinator__c, p.Concern__c, p.ChargeNumber__c From Project__c p";
+		var projQuery = "Select p.ZipCode__c, p.TrafficCalmingRequestType__c, p.TrafficCalmingProjectType__c, p.TrafficCalmingConcernType__c, p.TrafficCalmingConcernItem__c, p.TrafficAffected__c, p.SystemModstamp, p.Summary__c, p.Status__c, p.StandardizedLocation__c, p.SignalTimeOfDay__c, p.SignalSideOfStreet__c, p.SignalProjectType__c, p.SignalProblemDirection__c, p.SignalOperationAssignmentCount__c, p.SignalOperationAssignmentCompleteCount__c, p.SignalOperationAssignmentCancelledCount__c, p.SignalFundAdjustment__c, p.SignalDesignAssignmentCount__c, p.SignalDesignAssignmentCompleteCount__c, p.SignalDesignAssignmentCancelledCount__c, p.SignalDayOfWeek__c, p.SignalCustomerSurveySent__c, p.SignAssignmentCount__c, p.SignAssignmentCompleteCount__c, p.SignAssignmentCancelledCount__c, p.School__c, p.RequesterNotificationDate__c, p.RecordTypeId, p.ReceiveDateTime__c, p.ProjectType__c, p.ProjectLink__c, p.ProjectDurationDays__c, p.Program__c, p.OwnerId, p.Name__c, p.Name, p.MustBeApproved__c, p.MarkingAssignmentCount__c, p.MarkingAssignmentCompleteCount__c, p.MarkingAssignmentCancelledCount__c, p.MapLocation__c, p.MajorProject__c, p.LastModifiedDate, p.LastModifiedById, p.LastActivityDate, p.IsDeleted, p.Investigator__c, p.Id, p.ITSAssignmentCount__c, p.ITSAssignmentCompleteCount__c, p.ITSAssignmentCancelledCount__c, p.HoursSpent__c, p.HeavyEquipmentAssignmentCount__c, p.HeavyEquipmentAssignmentCompleteCount__c, p.HeavyEquipmentAssignmentCancelledCount__c, p.GeometricProjectType__c, p.GeometricProjectSource__c, p.GeometricPlanNumber__c, p.Geolocation__c, p.Geolocation__Longitude__s, p.Geolocation__Latitude__s, p.ElectricalAssignmentCount__c, p.ElectricalAssignmentCompleteCount__c, p.ElectricalAssignmentCancelledCount__c, p.CreatedDate, p.CreatedById, p.CouncilDistrict__c, p.Coordinator__c, p.Concern__c, p.CompleteDateTime__c, p.ChargeNumber__c, p.ApprovalStatus__c From Project__c p";
 		var records = sforce.connection.query(projQuery);
 		records1 = records.getArray('records');
 
@@ -260,8 +263,8 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 				$( '.draggable-marker' ).css( 'top', posTop );
 				$( '.draggable-marker' ).css( 'left', posLeft );
 
-				var coordsX = event.clientX - mouseMarkerPosX;
-				var coordsY = event.clientY - 64 - mouseMarkerPosY;
+				var coordsX = event.clientX - 16 - mouseMarkerPosX;
+				var coordsY = event.clientY - 128 - mouseMarkerPosY;
 				point = L.point( coordsX, coordsY ), // createing a Point object with the given x and y coordinates
 				markerCoords = map.containerPointToLatLng( point ), // getting the geographical coordinates of the point
 
@@ -281,7 +284,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 					icon: myIcon
 				}).on('dragend', function(event){
 					try {
-						googleReverseGeocode(markers[0].getLatLng().lat,markers[0].getLatLng().lng);
+						googleReverseGeocode(markers[0].getLatLng().lat, markers[0].getLatLng().lng);
 						getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[0]);
 					} catch (e) {
 						if (options.error){
@@ -291,7 +294,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 						}
 					}
 				}).addTo( map );
-				console.log(markerCoords.lat + "   " + markerCoords.lng);  
+				//console.log(markerCoords.lat + "   " + markerCoords.lng);  
 				try {
 					googleReverseGeocode(markers[0].getLatLng().lat,markers[0].getLatLng().lng);
 					getDropLocation(markerCoords.lat, markerCoords.lng, markers[0]);  
@@ -424,7 +427,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 	 			var Me = this;
 
 	 			google.maps.event.addListener(autocomplete, 'place_changed', function() {
-	 				console.log(autocomplete);
+	 				//console.log(autocomplete);
 	 				var place = autocomplete.getPlace();
 	 				if (!place.geometry) {
 	 					$('leaflet-control-googleautocomplete-qry').addClass('notfound');
@@ -443,7 +446,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet'], function(JQuery) {
 						var geocoder;
 						geocoder = new google.maps.Geocoder();
 						if (searchbox.value[0] == '#'){
-							console.log("NUMBER!!!");
+							//console.log("NUMBER!!!");
 							var address = "San Jose State University" + ", San Jose California"
 							var boundSW = google.maps.LatLng(37.2134286,-122.0329773);
 							var boundNE = google.maps.LatLng(37.4410163,-121.759899);

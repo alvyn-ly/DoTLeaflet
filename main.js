@@ -1,6 +1,7 @@
 requirejs.config({
 	//urlArgs: "bust=" + (new Date()).getTime(),
 	paths: {
+		leafletLib: 'leafletLib',
 		JQuery: 'JQuery',
 		JQuery_ui: 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min',
 		LoadCSS: 'LoadCSS',
@@ -13,8 +14,11 @@ requirejs.config({
 	},
 	shim: {
 		'DoT_leaflet': {
-			deps: ['JQuery', 'leaflet', 'esri_leaflet', 'googleAPI', 'Leaflet_Google']
-		},
+            deps: ['leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
+        },
+        'Leaflet_Google': {
+            deps: ['googleAPI'] 
+        },
 		'esri_leaflet': {
 			deps: ['leaflet']
 		},
