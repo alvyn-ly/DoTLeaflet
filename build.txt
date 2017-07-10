@@ -7,6 +7,7 @@ main.js
 ----------------
 JQuery.js
 LoadCSS.js
+easy-button.js
 leaflet.js
 esri_leaflet.js
 Leaflet_Google.js
