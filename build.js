@@ -20,16 +20,20 @@
         esri_leaflet: 'esri_leaflet',
         googleAPI: 'empty:',
         smoothMarkerBouncing: 'smoothMarkerBouncing',
-        Leaflet_Google: 'Leaflet_Google'
+        Leaflet_Google: 'Leaflet_Google',
+        easyButton: 'easy-button'
     },
     shim: {
         'DoT_leaflet': {
-            deps: ['leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
+            deps: ['easyButton', 'leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
         },
         'Leaflet_Google': {
             deps: ['googleAPI'] 
         },
         'esri_leaflet': {
+            deps: ['leaflet']
+        },
+        'easyButton': {
             deps: ['leaflet']
         },
         'JQuery_ui': {

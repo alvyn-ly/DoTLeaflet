@@ -10,16 +10,20 @@ requirejs.config({
 		esri_leaflet: 'esri_leaflet',
 		googleAPI: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBimi-uaVPiKmbW53QUc61AOkzflR0XzZs&sensor=false&libraries=places',
 		smoothMarkerBouncing: 'smoothMarkerBouncing',
-		Leaflet_Google: 'Leaflet_Google'
+		Leaflet_Google: 'Leaflet_Google',
+		easyButton: 'easy-button'
 	},
 	shim: {
 		'DoT_leaflet': {
-            deps: ['leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
-        },
-        'Leaflet_Google': {
-            deps: ['googleAPI'] 
-        },
+			deps: ['easyButton', 'leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
+		},
+		'Leaflet_Google': {
+			deps: ['googleAPI'] 
+		},
 		'esri_leaflet': {
+			deps: ['leaflet']
+		},
+		'easyButton': {
 			deps: ['leaflet']
 		},
 		'JQuery_ui': {

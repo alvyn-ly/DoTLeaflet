@@ -5,7 +5,6 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 	var projectArray = [];
 	var records1;
 	var markers = [], // an array containing all the markers added to the map
-	markersCount = 0; // the number of the added markers
 	
 	init = function initializeMap(options) {
 		var esriLayer;
@@ -18,12 +17,12 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 		map.on('focus', function() { map.scrollWheelZoom.enable(); });
 		map.on('blur', function() { map.scrollWheelZoom.disable(); });
 
-		var projQuery = "Select p.ZipCode__c, p.TrafficCalmingRequestType__c, p.TrafficCalmingProjectType__c, p.TrafficCalmingConcernType__c, p.TrafficCalmingConcernItem__c, p.TrafficAffected__c, p.SystemModstamp, p.Summary__c, p.Status__c, p.StandardizedLocation__c, p.SignalTimeOfDay__c, p.SignalSideOfStreet__c, p.SignalProjectType__c, p.SignalProblemDirection__c, p.SignalOperationAssignmentCount__c, p.SignalOperationAssignmentCompleteCount__c, p.SignalOperationAssignmentCancelledCount__c, p.SignalFundAdjustment__c, p.SignalDesignAssignmentCount__c, p.SignalDesignAssignmentCompleteCount__c, p.SignalDesignAssignmentCancelledCount__c, p.SignalDayOfWeek__c, p.SignalCustomerSurveySent__c, p.SignAssignmentCount__c, p.SignAssignmentCompleteCount__c, p.SignAssignmentCancelledCount__c, p.School__c, p.RequesterNotificationDate__c, p.RecordTypeId, p.ReceiveDateTime__c, p.ProjectType__c, p.ProjectLink__c, p.ProjectDurationDays__c, p.Program__c, p.OwnerId, p.Name__c, p.Name, p.MustBeApproved__c, p.MarkingAssignmentCount__c, p.MarkingAssignmentCompleteCount__c, p.MarkingAssignmentCancelledCount__c, p.MapLocation__c, p.MajorProject__c, p.LastModifiedDate, p.LastModifiedById, p.LastActivityDate, p.IsDeleted, p.Investigator__c, p.Id, p.ITSAssignmentCount__c, p.ITSAssignmentCompleteCount__c, p.ITSAssignmentCancelledCount__c, p.HoursSpent__c, p.HeavyEquipmentAssignmentCount__c, p.HeavyEquipmentAssignmentCompleteCount__c, p.HeavyEquipmentAssignmentCancelledCount__c, p.GeometricProjectType__c, p.GeometricProjectSource__c, p.GeometricPlanNumber__c, p.Geolocation__c, p.Geolocation__Longitude__s, p.Geolocation__Latitude__s, p.ElectricalAssignmentCount__c, p.ElectricalAssignmentCompleteCount__c, p.ElectricalAssignmentCancelledCount__c, p.CreatedDate, p.CreatedById, p.CouncilDistrict__c, p.Coordinator__c, p.Concern__c, p.CompleteDateTime__c, p.ChargeNumber__c, p.ApprovalStatus__c From Project__c p";
+		var projQuery = "Select p.ZipCode__c, p.TrafficCalmingRequestType__c, p.TrafficCalmingProjectType__c, p.TrafficCalmingConcernType__c, p.TrafficCalmingConcernItem__c, p.TrafficAffected__c, p.SystemModstamp, p.Summary__c, p.Status__c, p.StandardizedLocation__c, p.SignalTimeOfDay__c, p.SignalSideOfStreet__c, p.SignalProjectType__c, p.SignalProblemDirection__c, p.SignalOperationAssignmentCount__c, p.SignalOperationAssignmentCompleteCount__c, p.SignalOperationAssignmentCancelledCount__c, p.SignalFundAdjustment__c, p.SignalDesignAssignmentCount__c, p.SignalDesignAssignmentCompleteCount__c, p.SignalDesignAssignmentCancelledCount__c, p.SignalDayOfWeek__c, p.SignalCustomerSurveySent__c, p.SignAssignmentCount__c, p.SignAssignmentCompleteCount__c, p.SignAssignmentCancelledCount__c, p.School__c, p.RequesterNotificationDate__c, p.RecordTypeId, p.ReceiveDateTime__c, p.ProjectType__c, p.ProjectLink__c, p.ProjectDurationDays__c, p.Program__c, p.OwnerId, p.Name__c, p.Name, p.MustBeApproved__c, p.MarkingAssignmentCount__c, p.MarkingAssignmentCompleteCount__c, p.MarkingAssignmentCancelledCount__c, p.MapLocation__c, p.MajorProject__c, p.LastModifiedDate, p.LastModifiedById, p.LastActivityDate, p.IsDeleted, p.Investigator__c, p.Id, p.ITSAssignmentCount__c, p.ITSAssignmentCompleteCount__c, p.ITSAssignmentCancelledCount__c, p.HoursSpent__c, p.HeavyEquipmentAssignmentCount__c, p.HeavyEquipmentAssignmentCompleteCount__c, p.HeavyEquipmentAssignmentCancelledCount__c, p.GeometricProjectType__c, p.GeometricProjectSource__c, p.GeometricPlanNumber__c, p.Geolocation__Longitude__s, p.Geolocation__Latitude__s, p.ElectricalAssignmentCount__c, p.ElectricalAssignmentCompleteCount__c, p.ElectricalAssignmentCancelledCount__c, p.CreatedDate, p.CreatedById, p.CouncilDistrict__c, p.Coordinator__c, p.Concern__c, p.CompleteDateTime__c, p.ChargeNumber__c, p.ApprovalStatus__c From Project__c p";
 		var records = sforce.connection.query(projQuery);
 		records1 = records.getArray('records');
 
 		if (options.projectsLayer){
-			createProjMarkers();
+			createProjMarkers(records1);
 		}
 
 		if (options.search){
@@ -48,8 +47,13 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 			commandDrag.addTo(map);
 			noDrag(commandDrag);
 		}
+
+		if (options.filtered != undefined && options.filtered.length != 0){
+			
+		}
+
 		if (options.lat != undefined && options.lng != undefined){
-			processLocation(options.lng, options.lat, null, null);
+			processLocation(options.lng, options.lat, null, null, null);
 		}
 		if (options.zoom != undefined && Number.isInteger(options.zoom)){
 			map.setZoom(options.zoom);
@@ -115,7 +119,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
         // -------------------- END ESRI OPTIONS ---------------------- //
     }
 
-    function createProjMarkers(){
+    function createProjMarkers(records){
     	var filter = false;
     	if (options.startDate != undefined && options.endDate != undefined){
     		filter = true;
@@ -127,17 +131,17 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     		}
     	});
 
-    	for (var i = 0; i < records1.length; i++){
+    	for (var i = 0; i < records.length; i++){
     		if (filter){
-    			if (records1[i].CreatedDate.substring(0,10) > options.endDate.yyyymmdd() && records1[i].CreatedDate.substring(0,10) < options.startDate.yyyymmdd()){ //checks if markers fall between date range.
+    			if (records[i].CreatedDate.substring(0,10) > options.endDate.yyyymmdd() && records[i].CreatedDate.substring(0,10) < options.startDate.yyyymmdd()){ //checks if markers fall between date range.
     				myIcon = L.icon({
     					iconUrl: 'https://i.imgur.com/IiO1b0k.png',
 						iconSize: [40, 40], // size of the icon
 						iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
 						popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
 					});
-    				var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
-    				.bindPopup( records1[i].Name__c + "" )
+    				var marker = new customMarker([records[i].Geolocation__Latitude__s, records[i].Geolocation__Longitude__s], {icon: myIcon, allData: records[i]})
+    				.bindPopup( records[i].Name__c + "" )
     				.on('click', function () {
     					this.bounce(3);
     					try {
@@ -154,7 +158,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     				projectArray.push(marker);
     			} 
     		} else {
-    			if (records1[i].StandardizedLocation__c === options.location){
+    			if (records[i].StandardizedLocation__c === options.location){
     				myIcon = L.icon({
     					iconUrl: 'https://i.imgur.com/Jk4Naws.png',
 						iconSize: [40, 40], // size of the icon
@@ -170,8 +174,8 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 					});
     			}    			
 
-    			var marker = new customMarker([records1[i].Geolocation__Latitude__s, records1[i].Geolocation__Longitude__s], {icon: myIcon, allData: records1[i]})
-    			.bindPopup( records1[i].Name__c + "" )
+    			var marker = new customMarker([records[i].Geolocation__Latitude__s, records[i].Geolocation__Longitude__s], {icon: myIcon, allData: records[i]})
+    			.bindPopup( records[i].Name__c + "" )
     			.on('click', function () {
     				this.bounce(3);
     				try {
@@ -268,35 +272,10 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 				point = L.point( coordsX, coordsY ), // createing a Point object with the given x and y coordinates
 				markerCoords = map.containerPointToLatLng( point ), // getting the geographical coordinates of the point
 
-				// Creating a custom icon
-				myIcon = L.icon({
-					iconUrl: 'https://i.imgur.com/u1MkOm8.png', // the url of the img
-					iconSize: [64, 64],
-					iconAnchor: [32, 64] // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
-				});
-
-				// Creating a new marker and adding it to the map
-				if (markers[0] != null){
-					map.removeLayer(markers[0]);
-				}
-				markers[0] = L.marker( [ markerCoords.lat, markerCoords.lng ], {
-					draggable: true,
-					icon: myIcon
-				}).on('dragend', function(event){
-					try {
-						googleReverseGeocode(markers[0].getLatLng().lat, markers[0].getLatLng().lng);
-						getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[0]);
-					} catch (e) {
-						if (options.error){
-							console.log("Error", e.stack);
-							console.log("Error", e.name);
-							console.log("Error", e.message);
-						}
-					}
-				}).addTo( map );
+				createDragMarker(markerCoords.lat, markerCoords.lng);
 				//console.log(markerCoords.lat + "   " + markerCoords.lng);  
 				try {
-					googleReverseGeocode(markers[0].getLatLng().lat,markers[0].getLatLng().lng);
+					googleReverseGeocode(markers[0].getLatLng().lat,markers[0].getLatLng().lng, true);
 					getDropLocation(markerCoords.lat, markerCoords.lng, markers[0]);  
 				} catch (e) {
 					if (options.error){
@@ -304,12 +283,39 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 						console.log("Error", e.stack);
 						console.log("Error", e.name);
 						console.log("Error", e.message);
-					}
-					
+					}	
 				}             
-				markersCount++;
 			}
 		});
+	}
+
+	function createDragMarker(lat, lng){
+		// Creating a custom icon
+		myIcon = L.icon({
+			iconUrl: 'https://i.imgur.com/u1MkOm8.png', // the url of the img
+			iconSize: [64, 64],
+			iconAnchor: [32, 64] // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
+		});
+
+		// Creating a new marker and adding it to the map
+		if (markers[0] != null){
+			map.removeLayer(markers[0]);
+		}
+		markers[0] = L.marker( [lat, lng], {
+			draggable: true,
+			icon: myIcon
+		}).on('dragend', function(event){
+			try {
+				getDropLocation(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[0]);
+				googleReverseGeocode(markers[0].getLatLng().lat, markers[0].getLatLng().lng, true);
+			} catch (e) {
+				if (options.error){
+					console.log("Error", e.stack);
+					console.log("Error", e.name);
+					console.log("Error", e.message);
+				}
+			}
+		}).addTo( map );
 	}
 
 	/*
@@ -337,10 +343,10 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 	 * @param addressBox 
 	 * @param addressComponent
 	 **/
-	function processLocation(passX, passY, addressBox, addressComponents) {//after the geocode search happens in the autocomplete box, I shut off all the google stuff and instead it just passes the x&y to this function where I can use it in Leaflet.
-		map.setView(new L.LatLng(passY, passX), 18);
+	function processLocation(passX, passY, addressBox, addressComponents, shop) {//after the geocode search happens in the autocomplete box, I shut off all the google stuff and instead it just passes the x&y to this function where I can use it in Leaflet.
+		map.setView(new L.LatLng(passY, passX), 16);
 		try {
-			setAddressInfo(passX, passY, addressBox, addressComponents);  
+			setAddressInfo(passX, passY, addressBox, addressComponents, shop);  
 		} catch (e) {
 			if (options.error){
 				console.log("setAddressInfo() has en error.")
@@ -436,7 +442,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 
 	 				if (place.geometry.location) {
 	 					$('leaflet-control-googleautocomplete-qry').removeClass('notfound');
-						processLocation(place.geometry.location.lng(), place.geometry.location.lat(), place.name, place.address_components); //this is going to main script area. passed variable is (x,y) for later parsing.
+						processLocation(place.geometry.location.lng(), place.geometry.location.lat(), place.name, place.address_components, null); //this is going to main script area. passed variable is (x,y) for later parsing.
 						searchbox.value = searchbox.value.replace(", United States","");//remove 'United States' because it is superfluous
 					}
 				});   
@@ -447,17 +453,22 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 						geocoder = new google.maps.Geocoder();
 						if (searchbox.value[0] == '#'){
 							//console.log("NUMBER!!!");
-							var address = "San Jose State University" + ", San Jose California"
+							var shopNum = searchbox.value.substring(1);
+							var shopQuery = "Select s.IntersectionName__c, s.Id, s.GeolocationY__c, s.GeolocationX__c From ShopNumber__c s WHERE ShopNumber__c = " + shopNum;
+							var shopRecords = sforce.connection.query(shopQuery);
+							var shopRecords1 = shopRecords.getArray('records');
 							var boundSW = google.maps.LatLng(37.2134286,-122.0329773);
 							var boundNE = google.maps.LatLng(37.4410163,-121.759899);
 							var bounds = google.maps.LatLngBounds(boundSW,boundNE);
 							geocoder.geocode( {
-								address: address,
+								address: shopRecords1[0].IntersectionName__c + ", San Jose California",
 								bounds: bounds,
 								region: 'us'
 							}, function(results, status) {
 								if (status == google.maps.GeocoderStatus.OK) {
-									processLocation(results[0].geometry.location.lng(), results[0].geometry.location.lat(), null , null);
+									createDragMarker(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+									//googleReverseGeocode(results[0].geometry.location.lng(), results[0].geometry.location.lat(), false);
+									processLocation(results[0].geometry.location.lng(), results[0].geometry.location.lat(), toTitleCase(shopRecords1[0].IntersectionName__c) , results[0].address_components, shopNum);
 								} else {
 									alert('Location lookup was not successful for the following reason: ' + status);
 								}
@@ -474,7 +485,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 								region: 'us'
 							}, function(results, status) {
 								if (status == google.maps.GeocoderStatus.OK) {
-									processLocation(results[0].geometry.location.lng(), results[0].geometry.location.lat(), preaddress.replace("&","and").replace("amp;",""),results[0].address_components);
+									processLocation(results[0].geometry.location.lng(), results[0].geometry.location.lat(), preaddress.replace("&","and").replace("amp;",""),results[0].address_components, null);
 								} else {
 									alert('Location lookup was not successful for the following reason: ' + status);
 								}
@@ -499,36 +510,43 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 	 	});
 })(jQuery);
 
-function googleReverseGeocode(passLat, passLng) {
+function toTitleCase(str)
+{
+	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
+function googleReverseGeocode(passLat, passLng, getAddr) {
 	var geocoder;
 	geocoder = new google.maps.Geocoder();
 	var latlng = {lat: passLat, lng: passLng};
 	geocoder.geocode({'location': latlng}, function(results, status) {
 		if (status === google.maps.GeocoderStatus.OK) {
 			if (results[0]) {
-				googleReverseGeocodeResult(results[0].formatted_address);
+				googleReverseGeocodeResult(results[0].formatted_address, getAddr);
 			} else {
-					//console.log('Reverse location lookup: No results found');
-				}
-			} else {
-				//console.log('Reverse location lookup was not successful for the following reason: ' + status);
+				console.log('Reverse location lookup: No results found');
 			}
-		});
+		} else {
+			console.log('Reverse location lookup was not successful for the following reason: ' + status);
+		}
+	});
 }
 
-function googleReverseGeocodeResult(address) {//does a replace to trim address and puts it into stand loc field
+function googleReverseGeocodeResult(address, getAddr) {//does a replace to trim address and puts it into stand loc field
 	if(address.substring(address.length-3,address.length) == "USA") {
 		var nousaAddress = address.replace(", USA","");
 		var nozipAddress = nousaAddress.substring(0,nousaAddress.length-6);
         var nocityAddress = nozipAddress.replace(", San Jose, CA","");//If it's in another city it will just leave the city
         zipcodeField.value = "";
         var zipcode = ((address.split(','))[(address.split(',').length) - 2]).replace(' CA ','');
-        if(typeof zipcode !== "undefined"){ zipcodeField.value = zipcode; }
+        
     } else {
         var nocityAddress = address; //If it's in another country, then just spit back the address as is, user can figure it out
     }
     try {
-    	passMarkerAddress(nocityAddress);  
+    	var zip = "";
+    	if(typeof zipcode !== "undefined"){ zip = zipcode; }
+    	passMarkerAddress(nocityAddress, zip, getAddr);  
     } catch (e) {
     	if (options.error){
     		console.log("passMarkerAddress() has an error.")
