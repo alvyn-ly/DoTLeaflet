@@ -2,10 +2,29 @@ var reloadMap;
 define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], function(JQuery, leafletLib) {
 	var init;
 	var map;
+	var myIcon;
 	var projectArray = [];
 	var records1;
-	var markers = [], // an array containing all the markers added to the map
+	var markers = []; // an array containing all the markers added to the map
+
+	//---------EDITABLE FIELDS, MAKE CHANGES AS NESSESSARY--------------
+
+	//Marker Icon HTML - BASE ICON COLOR MUST BE BLUE, OTHERWISE HUE SUFFIXES MUST BE CHANGED.
+	var signalsProjMarker = '<img alt="Signal Project" src="https://i.imgur.com/GdAqjdS.png" title="Signal Project"';
+	var signalsGeometricMarker = '<img alt="Geometric Project" src="https://i.imgur.com/NmlUzxO.png" title="Geometric Project"';
+	var signalsTrafficCalmingMarker = '<img alt="Traffic Calming Project" src="https://i.imgur.com/sqSOaBX.png" title="Traffic Calming Project"';
+
+	var blueHue = '>';
+	var greenHue = ' class="huerotateN80">';
+	var redHue = ' class="huerotate150">';
+	var blackHue = ' class="grayscale">';
+	var orangeHue = ' class="huerotate185">';
+
+	//Select All SOQL Query. Change this if fields get added/removed from Projects
+	var projQuery = "Select p.ZipCode__c, p.TrafficCalmingRequestType__c, p.TrafficCalmingProjectType__c, p.TrafficCalmingConcernType__c, p.TrafficCalmingConcernItem__c, p.TrafficAffected__c, p.SystemModstamp, p.Summary__c, p.Status__c, p.StandardizedLocation__c, p.SignalTimeOfDay__c, p.SignalSideOfStreet__c, p.SignalProjectType__c, p.SignalProblemDirection__c, p.SignalOperationAssignmentCount__c, p.SignalOperationAssignmentCompleteCount__c, p.SignalOperationAssignmentCancelledCount__c, p.SignalFundAdjustment__c, p.SignalDesignAssignmentCount__c, p.SignalDesignAssignmentCompleteCount__c, p.SignalDesignAssignmentCancelledCount__c, p.SignalDayOfWeek__c, p.SignalCustomerSurveySent__c, p.SignAssignmentCount__c, p.SignAssignmentCompleteCount__c, p.SignAssignmentCancelledCount__c, p.School__c, p.RequesterNotificationDate__c, p.RecordTypeId, p.ReceiveDateTime__c, p.ProjectType__c, p.ProjectLink__c, p.ProjectDurationDays__c, p.Program__c, p.OwnerId, p.Name__c, p.Name, p.MustBeApproved__c, p.MarkingAssignmentCount__c, p.MarkingAssignmentCompleteCount__c, p.MarkingAssignmentCancelledCount__c, p.MapLocation__c, p.MajorProject__c, p.LastModifiedDate, p.LastModifiedById, p.LastActivityDate, p.IsDeleted, p.Investigator__c, p.Id, p.ITSAssignmentCount__c, p.ITSAssignmentCompleteCount__c, p.ITSAssignmentCancelledCount__c, p.HoursSpent__c, p.HeavyEquipmentAssignmentCount__c, p.HeavyEquipmentAssignmentCompleteCount__c, p.HeavyEquipmentAssignmentCancelledCount__c, p.GeometricProjectType__c, p.GeometricProjectSource__c, p.GeometricPlanNumber__c, p.Geolocation__Longitude__s, p.Geolocation__Latitude__s, p.ElectricalAssignmentCount__c, p.ElectricalAssignmentCompleteCount__c, p.ElectricalAssignmentCancelledCount__c, p.CreatedDate, p.CreatedById, p.CouncilDistrict__c, p.Coordinator__c, p.Concern__c, p.CompleteDateTime__c, p.ChargeNumber__c, p.ApprovalStatus__c From Project__c p";
 	
+	//--------------------END OF EDITABLE FIELDS--------------------------
+
 	init = function initializeMap(options) {
 		var esriLayer;
 
@@ -17,13 +36,19 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 		map.on('focus', function() { map.scrollWheelZoom.enable(); });
 		map.on('blur', function() { map.scrollWheelZoom.disable(); });
 
-		var projQuery = "Select p.ZipCode__c, p.TrafficCalmingRequestType__c, p.TrafficCalmingProjectType__c, p.TrafficCalmingConcernType__c, p.TrafficCalmingConcernItem__c, p.TrafficAffected__c, p.SystemModstamp, p.Summary__c, p.Status__c, p.StandardizedLocation__c, p.SignalTimeOfDay__c, p.SignalSideOfStreet__c, p.SignalProjectType__c, p.SignalProblemDirection__c, p.SignalOperationAssignmentCount__c, p.SignalOperationAssignmentCompleteCount__c, p.SignalOperationAssignmentCancelledCount__c, p.SignalFundAdjustment__c, p.SignalDesignAssignmentCount__c, p.SignalDesignAssignmentCompleteCount__c, p.SignalDesignAssignmentCancelledCount__c, p.SignalDayOfWeek__c, p.SignalCustomerSurveySent__c, p.SignAssignmentCount__c, p.SignAssignmentCompleteCount__c, p.SignAssignmentCancelledCount__c, p.School__c, p.RequesterNotificationDate__c, p.RecordTypeId, p.ReceiveDateTime__c, p.ProjectType__c, p.ProjectLink__c, p.ProjectDurationDays__c, p.Program__c, p.OwnerId, p.Name__c, p.Name, p.MustBeApproved__c, p.MarkingAssignmentCount__c, p.MarkingAssignmentCompleteCount__c, p.MarkingAssignmentCancelledCount__c, p.MapLocation__c, p.MajorProject__c, p.LastModifiedDate, p.LastModifiedById, p.LastActivityDate, p.IsDeleted, p.Investigator__c, p.Id, p.ITSAssignmentCount__c, p.ITSAssignmentCompleteCount__c, p.ITSAssignmentCancelledCount__c, p.HoursSpent__c, p.HeavyEquipmentAssignmentCount__c, p.HeavyEquipmentAssignmentCompleteCount__c, p.HeavyEquipmentAssignmentCancelledCount__c, p.GeometricProjectType__c, p.GeometricProjectSource__c, p.GeometricPlanNumber__c, p.Geolocation__Longitude__s, p.Geolocation__Latitude__s, p.ElectricalAssignmentCount__c, p.ElectricalAssignmentCompleteCount__c, p.ElectricalAssignmentCancelledCount__c, p.CreatedDate, p.CreatedById, p.CouncilDistrict__c, p.Coordinator__c, p.Concern__c, p.CompleteDateTime__c, p.ChargeNumber__c, p.ApprovalStatus__c From Project__c p";
+		
 		var records = sforce.connection.query(projQuery);
 		records1 = records.getArray('records');
 
-		if (options.projectsLayer){
-			createProjMarkers(records1);
-		}
+		// if (options.projectsLayer){
+		// 	if (options.filtered != undefined && options.filtered.length != 0){
+		// 		getFilteredQuery(options.filtered);
+		// 		createProjMarkers(records1, filtered);
+		// 	} else {
+
+		// 	}
+
+		// }
 
 		if (options.search){
 			new L.Control.GoogleAutocomplete().addTo(map);
@@ -46,10 +71,6 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 			}; 
 			commandDrag.addTo(map);
 			noDrag(commandDrag);
-		}
-
-		if (options.filtered != undefined && options.filtered.length != 0){
-			
 		}
 
 		if (options.lat != undefined && options.lng != undefined){
@@ -117,6 +138,43 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
         	});
         }
         // -------------------- END ESRI OPTIONS ---------------------- //
+    } 
+
+    function makeIcon(type, status, focus){
+    	if (options.error){ //error checking
+    		console.log(type + "  " + status + "  " + focus)
+    	}
+    	var pic = "";
+    	if (type == "Signal"){
+    		pic = signalsProjMarker;
+    	} else if (type == "Geometric") {
+    		pic = signalsGeometricMarker;
+    	} else if (type == "Traffic Calming"){
+    		pic = signalsTrafficCalmingMarker;
+    	} else {
+    		console.log("Uh oh! Wrong Marker type!")
+    	}
+
+    	if (status == "Open"){
+    		pic = pic + orangeHue;
+    	} else if (status == "Assigned"){
+    		pic = pic + greenHue;
+    	} else if (status == "Pending"){
+    		pic = pic + blueHue;
+    	} else if (status == "Priority"){
+    		pic = pic + redHue;
+    	} else if (status == "Complete"){
+    		pic = pic + blackHue;
+    	} else {
+    		console.log("Uh oh! Wrong Marker status!")
+    	}
+
+    	myIcon = L.divIcon({
+    		html:pic,
+    		iconSize: new L.Point(50, 50),
+    		iconAnchor: new L.Point(25, 50),
+    		popupAnchor: new L.Point(-25, -50)
+    	});
     }
 
     function createProjMarkers(records){
@@ -134,69 +192,72 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     	for (var i = 0; i < records.length; i++){
     		if (filter){
     			if (records[i].CreatedDate.substring(0,10) > options.endDate.yyyymmdd() && records[i].CreatedDate.substring(0,10) < options.startDate.yyyymmdd()){ //checks if markers fall between date range.
-    				myIcon = L.icon({
-    					iconUrl: 'https://i.imgur.com/IiO1b0k.png',
-						iconSize: [40, 40], // size of the icon
-						iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
-						popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+    				makeIcon(records[i].Type__c, records[i].Status__c, false);
+    	// 			myIcon = L.icon({
+    	// 				iconUrl: 'https://i.imgur.com/IiO1b0k.png',
+					// 	iconSize: [40, 40], // size of the icon
+					// 	iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+					// 	popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+					// });
+					var marker = new customMarker([records[i].Geolocation__Latitude__s, records[i].Geolocation__Longitude__s], {icon: myIcon, allData: records[i]})
+					.bindPopup( records[i].Name__c + "" )
+					.on('click', function () {
+						this.bounce(3);
+						try {
+							pushData(this.options.allData);
+						} catch(e) {
+							if (options.error){
+								console.log("pushData() has an error.")
+								console.log("Error", e.stack);
+								console.log("Error", e.name);
+								console.log("Error", e.message);
+							}
+						}
 					});
-    				var marker = new customMarker([records[i].Geolocation__Latitude__s, records[i].Geolocation__Longitude__s], {icon: myIcon, allData: records[i]})
-    				.bindPopup( records[i].Name__c + "" )
-    				.on('click', function () {
-    					this.bounce(3);
-    					try {
-    						pushData(this.options.allData);
-    					} catch(e) {
-    						if (options.error){
-    							console.log("pushData() has an error.")
-    							console.log("Error", e.stack);
-    							console.log("Error", e.name);
-    							console.log("Error", e.message);
-    						}
-    					}
-    				});
-    				projectArray.push(marker);
-    			} 
-    		} else {
-    			if (records[i].StandardizedLocation__c === options.location){
-    				myIcon = L.icon({
-    					iconUrl: 'https://i.imgur.com/Jk4Naws.png',
-						iconSize: [40, 40], // size of the icon
-						iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
-						popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
-					});
-    			} else {
-    				myIcon = L.icon({
-    					iconUrl: 'https://i.imgur.com/IiO1b0k.png',
-						iconSize: [40, 40], // size of the icon
-						iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
-						popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
-					});
-    			}    			
+					projectArray.push(marker);
+				} 
+			} else {
+				if (records[i].StandardizedLocation__c === options.location){
+					makeIcon(records[i].Type__c, records[i].Status__c, false);
+    	// 			myIcon = L.icon({
+    	// 				iconUrl: 'https://i.imgur.com/Jk4Naws.png',
+					// 	iconSize: [40, 40], // size of the icon
+					// 	iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+					// 	popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+					// });
+				} else {
+					makeIcon(records[i].Type__c, records[i].Status__c, false);
+    	// 			myIcon = L.icon({
+    	// 				iconUrl: 'https://i.imgur.com/IiO1b0k.png',
+					// 	iconSize: [40, 40], // size of the icon
+					// 	iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+					// 	popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
+					// });
+				}    			
 
-    			var marker = new customMarker([records[i].Geolocation__Latitude__s, records[i].Geolocation__Longitude__s], {icon: myIcon, allData: records[i]})
-    			.bindPopup( records[i].Name__c + "" )
-    			.on('click', function () {
-    				this.bounce(3);
-    				try {
-    					pushData(this.options.allData);
-    				} catch(e) {
-    					if (options.error){
-    						console.log("pushData() has an error.")
-    						console.log("Error", e.stack);
-    						console.log("Error", e.name);
-    						console.log("Error", e.message);
-    					}
-    				}
-    			});
-    			projectArray.push(marker);
-    		}
+				var marker = new customMarker([records[i].Geolocation__Latitude__s, records[i].Geolocation__Longitude__s], {icon: myIcon, allData: records[i]})
+				.bindPopup( records[i].Name__c + "" )
+				.on('click', function () {
+					this.bounce(3);
+					try {
+						pushData(this.options.allData);
+					} catch(e) {
+						if (options.error){
+							console.log("pushData() has an error.")
+							console.log("Error", e.stack);
+							console.log("Error", e.name);
+							console.log("Error", e.message);
+						}
+					}
+				});
+				projectArray.push(marker);
+			}
 
 
-    	}
-    	var projects = L.layerGroup(projectArray);
-    	projects.addTo(map);
-    }
+		}
+		var projects = L.layerGroup(projectArray);
+		projects.addTo(map);
+	}
 
     //use to add or change fill color of incorporated polygon, fires on basemap change
     function incorporatedLayer(active, color) {

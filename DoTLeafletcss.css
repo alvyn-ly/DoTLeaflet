@@ -1031,3 +1031,8 @@
 	cursor: pointer;
 	z-index: 2;
 }
+/*Filter styles*/
+.grayscale {-webkit-filter: grayscale(100%); filter: grayscale(100%);}
+.huerotateN80 {-webkit-filter: hue-rotate(-80deg); filter: hue-rotate(-80deg);}
+.huerotate150 {-webkit-filter: hue-rotate(150deg); filter: hue-rotate(150deg);}
+.huerotate185 {-webkit-filter: hue-rotate(185deg); filter: hue-rotate(185deg);}
