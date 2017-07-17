@@ -192,7 +192,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     	for (var i = 0; i < records.length; i++){
     		if (filter){
     			if (records[i].CreatedDate.substring(0,10) > options.endDate.yyyymmdd() && records[i].CreatedDate.substring(0,10) < options.startDate.yyyymmdd()){ //checks if markers fall between date range.
-    				makeIcon(records[i].Type__c, records[i].Status__c, false);
+    				makeIcon(records[i].ProjectType__c, records[i].Status__c, false);
     	// 			myIcon = L.icon({
     	// 				iconUrl: 'https://i.imgur.com/IiO1b0k.png',
 					// 	iconSize: [40, 40], // size of the icon
@@ -218,7 +218,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 				} 
 			} else {
 				if (records[i].StandardizedLocation__c === options.location){
-					makeIcon(records[i].Type__c, records[i].Status__c, false);
+					makeIcon(records[i].ProjectType__c, records[i].Status__c, false);
     	// 			myIcon = L.icon({
     	// 				iconUrl: 'https://i.imgur.com/Jk4Naws.png',
 					// 	iconSize: [40, 40], // size of the icon
@@ -226,7 +226,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 					// 	popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor   
 					// });
 				} else {
-					makeIcon(records[i].Type__c, records[i].Status__c, false);
+					makeIcon(records[i].ProjectType__c, records[i].Status__c, false);
     	// 			myIcon = L.icon({
     	// 				iconUrl: 'https://i.imgur.com/IiO1b0k.png',
 					// 	iconSize: [40, 40], // size of the icon
