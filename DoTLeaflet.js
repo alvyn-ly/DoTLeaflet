@@ -166,7 +166,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     		html:pic,
     		iconSize: new L.Point(50, 50),
     		iconAnchor: new L.Point(25, 50),
-    		popupAnchor: new L.Point(-25, -50)
+    		popupAnchor: new L.Point(25, -50)
     	});
     }
 
@@ -195,7 +195,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 					var marker = new customMarker([records[i].Geolocation__Latitude__s, records[i].Geolocation__Longitude__s], {icon: myIcon, allData: records[i]})
 					.bindPopup( records[i].Name__c + "" )
 					.on('click', function () {
-						this.bounce(3);
+						//this.bounce(3);
 						try {
 							pushData(this.options.allData);
 						} catch(e) {
