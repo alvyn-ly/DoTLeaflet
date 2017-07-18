@@ -1032,6 +1032,11 @@
 	z-index: 2;
 }
 /*Filter styles*/
+.leaflet-div-icon {
+  background-color: transparent;
+  border: 0px solid #666;
+}
+
 .grayscale {-webkit-filter: grayscale(100%); filter: grayscale(100%);}
 .huerotateN80 {-webkit-filter: hue-rotate(-80deg); filter: hue-rotate(-80deg);}
 .huerotate150 {-webkit-filter: hue-rotate(150deg); filter: hue-rotate(150deg);}

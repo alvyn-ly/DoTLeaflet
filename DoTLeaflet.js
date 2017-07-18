@@ -162,7 +162,6 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     	} else {
     		console.log("Uh oh! Wrong Marker status!")
     	}
-    	console.log(pic);
     	myIcon = L.divIcon({
     		html:pic,
     		iconSize: new L.Point(50, 50),
@@ -172,7 +171,6 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     }
 
     function createProjMarkers(records){
-    	console.log("createProjMarkers");
     	var filter = false;
     	if (options.startDate != undefined && options.endDate != undefined){
     		filter = true;
@@ -187,7 +185,6 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     	for (var i = 0; i < records.length; i++){
     		if (filter){
     			if (records[i].CreatedDate.substring(0,10) > options.endDate.yyyymmdd() && records[i].CreatedDate.substring(0,10) < options.startDate.yyyymmdd()){ //checks if markers fall between date range.
-    				console.log("makin icon");
     				makeIcon(records[i].ProjectType__c, records[i].Status__c, false);
     	// 			myIcon = L.icon({
     	// 				iconUrl: 'https://i.imgur.com/IiO1b0k.png',
@@ -234,7 +231,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 				var marker = new customMarker([records[i].Geolocation__Latitude__s, records[i].Geolocation__Longitude__s], {icon: myIcon, allData: records[i]})
 				.bindPopup( records[i].Name__c + "" )
 				.on('click', function () {
-					this.bounce(3);
+					this.bounce(2.5);
 					try {
 						pushData(this.options.allData);
 					} catch(e) {
