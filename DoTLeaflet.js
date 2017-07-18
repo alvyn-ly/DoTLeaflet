@@ -40,15 +40,9 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 		var records = sforce.connection.query(projQuery);
 		records1 = records.getArray('records');
 
-		// if (options.projectsLayer){
-		// 	if (options.filtered != undefined && options.filtered.length != 0){
-		// 		getFilteredQuery(options.filtered);
-		// 		createProjMarkers(records1, filtered);
-		// 	} else {
-
-		// 	}
-
-		// }
+		if (options.projectsLayer){
+			createProjMarkers(records1);
+		}
 
 		if (options.search){
 			new L.Control.GoogleAutocomplete().addTo(map);
@@ -178,6 +172,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     }
 
     function createProjMarkers(records){
+    	console.log("createProjMarkers");
     	var filter = false;
     	if (options.startDate != undefined && options.endDate != undefined){
     		filter = true;
