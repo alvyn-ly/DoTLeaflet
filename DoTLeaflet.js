@@ -168,7 +168,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     	} else {
     		console.log("Uh oh! Wrong Marker status!")
     	}
-
+    	console.log(pic);
     	myIcon = L.divIcon({
     		html:pic,
     		iconSize: new L.Point(50, 50),
@@ -192,6 +192,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     	for (var i = 0; i < records.length; i++){
     		if (filter){
     			if (records[i].CreatedDate.substring(0,10) > options.endDate.yyyymmdd() && records[i].CreatedDate.substring(0,10) < options.startDate.yyyymmdd()){ //checks if markers fall between date range.
+    				console.log("makin icon");
     				makeIcon(records[i].ProjectType__c, records[i].Status__c, false);
     	// 			myIcon = L.icon({
     	// 				iconUrl: 'https://i.imgur.com/IiO1b0k.png',
