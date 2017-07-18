@@ -166,7 +166,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     		html:pic,
     		iconSize: new L.Point(50, 50),
     		iconAnchor: new L.Point(25, 50),
-    		popupAnchor: new L.Point(25, -50)
+    		popupAnchor: new L.Point(0, -50)
     	});
     }
 
