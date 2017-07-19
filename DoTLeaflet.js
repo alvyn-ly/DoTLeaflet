@@ -162,15 +162,15 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     	} else {
     		console.log("Uh oh! Wrong Marker status!")
     	}
-    	var type = '';
+    	var focustype = '';
     	if (focus){
-    		type = 'leaflet-div-focusIcon';
+    		focustype = 'leaflet-div-focusIcon';
     	} else {
-    		type = 'leaflet-div-icon';
+    		focustype = 'leaflet-div-icon';
     	}
     	myIcon = L.divIcon({
     		html:pic,
-    		className: type,
+    		className: focustype,
     		iconSize: new L.Point(50, 50),
     		iconAnchor: new L.Point(25, 50),
     		popupAnchor: new L.Point(0, -50)
