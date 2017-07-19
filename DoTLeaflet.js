@@ -231,7 +231,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 				var marker = new customMarker([records[i].Geolocation__Latitude__s, records[i].Geolocation__Longitude__s], {icon: myIcon, allData: records[i]})
 				.bindPopup( records[i].Name__c + "" )
 				.on('click', function () {
-					this.bounce(2.5);
+					//this.bounce(2.5);
 					try {
 						pushData(this.options.allData);
 					} catch(e) {
