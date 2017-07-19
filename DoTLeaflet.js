@@ -162,8 +162,15 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
     	} else {
     		console.log("Uh oh! Wrong Marker status!")
     	}
+    	var type = '';
+    	if (focus){
+    		type = 'leaflet-div-focusIcon';
+    	} else {
+    		type = 'leaflet-div-icon';
+    	}
     	myIcon = L.divIcon({
     		html:pic,
+    		className: type,
     		iconSize: new L.Point(50, 50),
     		iconAnchor: new L.Point(25, 50),
     		popupAnchor: new L.Point(0, -50)
@@ -211,7 +218,8 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 				} 
 			} else {
 				if (records[i].StandardizedLocation__c === options.location){
-					makeIcon(records[i].ProjectType__c, records[i].Status__c, false);
+					makeIcon(records[i].ProjectType__c, records[i].Status__c, true);
+					map.panTo(new L.LatLng(records[i].Geolocation__Latitude__s, records[i].Geolocation__Longitude__s));
     	// 			myIcon = L.icon({
     	// 				iconUrl: 'https://i.imgur.com/Jk4Naws.png',
 					// 	iconSize: [40, 40], // size of the icon
