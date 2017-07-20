@@ -510,7 +510,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 				});   
 
 	 			$(searchbox).keypress(function(e) {
-					if(e.which == 13) { //if a number is entered into the searchbox, it will attempt to find the shopNo instead. INCOMPLETE UNTIL SHOP DB IS IMPORTED
+					if(e.which == 13) { //if a number is entered into the searchbox, it will attempt to find the shopNo instead. 
 						var geocoder;
 						geocoder = new google.maps.Geocoder();
 						if (searchbox.value[0] == '#'){
@@ -528,9 +528,10 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 								region: 'us'
 							}, function(results, status) {
 								if (status == google.maps.GeocoderStatus.OK) {
-									createDragMarker(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-									//googleReverseGeocode(results[0].geometry.location.lng(), results[0].geometry.location.lat(), false);
-									processLocation(results[0].geometry.location.lng(), results[0].geometry.location.lat(), toTitleCase(shopRecords1[0].IntersectionName__c) , results[0].address_components, shopNum);
+									// createDragMarker(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+									// processLocation(results[0].geometry.location.lng(), results[0].geometry.location.lat(), toTitleCase(shopRecords1[0].IntersectionName__c) , results[0].address_components, shopNum);
+									createDragMarker(shopRecords1[0].GeolocationX__c, shopRecords1[0].GeolocationY__c);
+									processLocation(shopRecords1[0].GeolocationX__c, shopRecords1[0].GeolocationY__c, toTitleCase(shopRecords1[0].IntersectionName__c) , results[0].address_components, shopNum);
 								} else {
 									alert('Location lookup was not successful for the following reason: ' + status);
 								}
