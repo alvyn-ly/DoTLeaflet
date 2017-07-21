@@ -43,12 +43,12 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 			map.closePopup();
 		});
 
-		var popup = new L.Popup();
-		oms.addListener('click', function(marker) {
-			popup.setContent(marker.desc);
-			popup.setLatLng(marker.getLatLng());
-			map.openPopup(popup);
-		});
+		// var popup = new L.Popup();
+		// oms.addListener('click', function(marker) {
+		// 	popup.setContent(marker.desc);
+		// 	popup.setLatLng(marker.getLatLng());
+		// 	map.openPopup(popup);
+		// });
 
 		var records = sforce.connection.query(projQuery);
 		records1 = records.getArray('records');
