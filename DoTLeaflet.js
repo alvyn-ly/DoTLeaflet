@@ -39,6 +39,10 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 
 		oms = new OverlappingMarkerSpiderfier(map);
 
+		oms.addListener('spiderfy', function(markers) {
+			map.closePopup();
+		});
+
 		var popup = new L.Popup();
 		oms.addListener('click', function(marker) {
 			popup.setContent(marker.desc);
