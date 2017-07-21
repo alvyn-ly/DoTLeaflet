@@ -16,10 +16,10 @@ requirejs.config({
 	},
 	shim: {
 		'DoT_leaflet': {
-			deps: ['spiderfy', 'easyButton', 'leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
+			deps: ['easyButton', 'leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
 		},
 		'Leaflet_Google': {
-			deps: ['spiderfy', 'googleAPI'] 
+			deps: ['googleAPI'] 
 		},
 		'esri_leaflet': {
 			deps: ['spiderfy', 'leaflet']
