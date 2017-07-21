@@ -2,6 +2,7 @@ requirejs.config({
 	//urlArgs: "bust=" + (new Date()).getTime(),
 	paths: {
 		leafletLib: 'leafletLib',
+		spiderfy: 'oms.min',
 		JQuery: 'JQuery',
 		JQuery_ui: 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min',
 		LoadCSS: 'LoadCSS',
@@ -11,8 +12,7 @@ requirejs.config({
 		googleAPI: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBimi-uaVPiKmbW53QUc61AOkzflR0XzZs&sensor=false&libraries=places',
 		smoothMarkerBouncing: 'smoothMarkerBouncing',
 		Leaflet_Google: 'Leaflet_Google',
-		easyButton: 'easy-button',
-		spiderfy: 'oms.min'
+		easyButton: 'easy-button'
 	},
 	shim: {
 		'DoT_leaflet': {
