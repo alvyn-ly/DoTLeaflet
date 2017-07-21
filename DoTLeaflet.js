@@ -2,6 +2,7 @@ var reloadMap;
 define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], function(JQuery, leafletLib) {
 	var init;
 	var map;
+	var oms;
 	var myIcon;
 	var projectArray = [];
 	var records1;
@@ -36,7 +37,15 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 		map.on('focus', function() { map.scrollWheelZoom.enable(); });
 		map.on('blur', function() { map.scrollWheelZoom.disable(); });
 
-		
+		oms = new OverlappingMarkerSpiderfier(map);
+
+		var popup = new L.Popup();
+		oms.addListener('click', function(marker) {
+			popup.setContent(marker.desc);
+			popup.setLatLng(marker.getLatLng());
+			map.openPopup(popup);
+		});
+
 		var records = sforce.connection.query(projQuery);
 		records1 = records.getArray('records');
 
@@ -215,6 +224,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 						}
 					});
 					projectArray.push(marker);
+					oms.addMarker(marker);
 				} 
 			} else {
 				if (records[i].StandardizedLocation__c === options.location){
@@ -252,6 +262,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 					}
 				});
 				projectArray.push(marker);
+				oms.addMarker(marker);
 			}
 
 
@@ -624,6 +635,7 @@ function googleReverseGeocodeResult(address, getAddr) {//does a replace to trim 
 reloadMap = function reload(){
 	if (map != undefined) { map.remove(); }
 	projectArray.length = 0;
+	oms.clearMarkers();
 	init(options);
 }
 

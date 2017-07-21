@@ -21,11 +21,12 @@
         googleAPI: 'empty:',
         smoothMarkerBouncing: 'smoothMarkerBouncing',
         Leaflet_Google: 'Leaflet_Google',
-        easyButton: 'easy-button'
+        easyButton: 'easy-button',
+        spiderfy: 'oms.min'
     },
     shim: {
         'DoT_leaflet': {
-            deps: ['easyButton', 'leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
+            deps: ['spiderfy', 'easyButton', 'leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
         },
         'Leaflet_Google': {
             deps: ['googleAPI'] 
