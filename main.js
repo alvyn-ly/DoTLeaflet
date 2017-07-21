@@ -2,7 +2,6 @@ requirejs.config({
 	//urlArgs: "bust=" + (new Date()).getTime(),
 	paths: {
 		leafletLib: 'leafletLib',
-		spiderfy: 'oms.min',
 		JQuery: 'JQuery',
 		JQuery_ui: 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min',
 		LoadCSS: 'LoadCSS',
@@ -12,7 +11,8 @@ requirejs.config({
 		googleAPI: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBimi-uaVPiKmbW53QUc61AOkzflR0XzZs&sensor=false&libraries=places',
 		smoothMarkerBouncing: 'smoothMarkerBouncing',
 		Leaflet_Google: 'Leaflet_Google',
-		easyButton: 'easy-button'
+		easyButton: 'easy-button',
+		oms: 'oms.min'
 	},
 	shim: {
 		'DoT_leaflet': {
@@ -22,7 +22,7 @@ requirejs.config({
 			deps: ['googleAPI'] 
 		},
 		'esri_leaflet': {
-			deps: ['spiderfy', 'leaflet']
+			deps: ['oms', 'leaflet']
 		},
 		'easyButton': {
 			deps: ['leaflet']
@@ -35,4 +35,4 @@ requirejs.config({
 
 
 
-require(["spiderfy", "JQuery_ui", "JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "googleAPI", "smoothMarkerBouncing", "Leaflet_Google"]);
+require(["oms", "JQuery_ui", "JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "googleAPI", "smoothMarkerBouncing", "Leaflet_Google"]);
