@@ -19,10 +19,10 @@ requirejs.config({
 			deps: ['spiderfy', 'easyButton', 'leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
 		},
 		'Leaflet_Google': {
-			deps: ['googleAPI'] 
+			deps: ['spiderfy', 'googleAPI'] 
 		},
 		'esri_leaflet': {
-			deps: ['leaflet']
+			deps: ['spiderfy', 'leaflet']
 		},
 		'easyButton': {
 			deps: ['leaflet']
