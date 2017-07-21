@@ -16,7 +16,7 @@ requirejs.config({
 	},
 	shim: {
 		'oms': {
-			deps:['googleAPI']
+			deps: ['googleAPI']
 		},
 		'DoT_leaflet': {
 			deps: ['easyButton', 'leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
