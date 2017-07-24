@@ -5,6 +5,7 @@ DoTLeafletcss.css
 
 main.js
 ----------------
+oms.js
 JQuery.js
 LoadCSS.js
 leaflet.js
