@@ -5,10 +5,10 @@ DoTLeafletcss.css
 
 main.js
 ----------------
+leaflet.js
 oms.js
 JQuery.js
 LoadCSS.js
-leaflet.js
 easy-button.js
 esri_leaflet.js
 Leaflet_Google.js
