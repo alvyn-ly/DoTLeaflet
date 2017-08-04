@@ -12,11 +12,11 @@ requirejs.config({
 		smoothMarkerBouncing: 'smoothMarkerBouncing',
 		Leaflet_Google: 'Leaflet_Google',
 		easyButton: 'easy-button',
-		oms: 'oms.min'
+		oms: 'oms'
 	},
 	shim: {
 		'oms': {
-			deps: ['googleAPI']
+			deps: ['googleAPI', 'leaflet']
 		},
 		'DoT_leaflet': {
 			deps: ['easyButton', 'leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']

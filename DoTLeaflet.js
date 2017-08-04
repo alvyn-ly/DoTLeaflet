@@ -11,9 +11,9 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 	//---------EDITABLE FIELDS, MAKE CHANGES AS NESSESSARY--------------
 
 	//Marker Icon HTML - BASE ICON COLOR MUST BE BLUE, OTHERWISE HUE SUFFIXES MUST BE CHANGED.
-	var signalsProjMarker = '<img alt="Signal Project" src="https://i.imgur.com/GdAqjdS.png" title="Signal Project"';
-	var signalsGeometricMarker = '<img alt="Geometric Project" src="https://i.imgur.com/NmlUzxO.png" title="Geometric Project"';
-	var signalsTrafficCalmingMarker = '<img alt="Traffic Calming Project" src="https://i.imgur.com/sqSOaBX.png" title="Traffic Calming Project"';
+	var signalsProjMarker = '<img alt="Signal Project" src="https://i.imgur.com/Gfa1Ez0.png" title="Signal Project"';
+	var signalsGeometricMarker = '<img alt="Geometric Project" src="https://i.imgur.com/DDMM4qR.png" title="Geometric Project"';
+	var signalsTrafficCalmingMarker = '<img alt="Traffic Calming Project" src="https://i.imgur.com/MeM6bgR.png" title="Traffic Calming Project"';
 
 	var blueHue = '>';
 	var greenHue = ' class="huerotateN80">';
@@ -320,7 +320,7 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 		div1.setAttribute('class', 'marker-menu');
 		var div2 = document.createElement("img");
 		div2.id = "draggable-marker";
-		div2.setAttribute('src', 'https://i.imgur.com/u1MkOm8.png');
+		div2.setAttribute('src', 'https://i.imgur.com/kqAGLLx.png');
 		div2.setAttribute('class', 'draggable-marker');
 		document.body.appendChild(div1);
 		document.getElementById("marker-menu").appendChild(div2);
@@ -344,8 +344,8 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 				$( '.draggable-marker' ).css( 'top', posTop );
 				$( '.draggable-marker' ).css( 'left', posLeft );
 
-				var coordsX = event.clientX - 16 - mouseMarkerPosX;
-				var coordsY = event.clientY - 128 - mouseMarkerPosY;
+				var coordsX = event.clientX - mouseMarkerPosX;
+				var coordsY = event.clientY - 200 - mouseMarkerPosY;
 				point = L.point( coordsX, coordsY ), // createing a Point object with the given x and y coordinates
 				markerCoords = map.containerPointToLatLng( point ), // getting the geographical coordinates of the point
 
@@ -369,9 +369,9 @@ define(['JQuery', 'JQuery_ui', 'leaflet', 'Leaflet_Google', 'leafletLib'], funct
 	function createDragMarker(lat, lng){
 		// Creating a custom icon
 		myIcon = L.icon({
-			iconUrl: 'https://i.imgur.com/u1MkOm8.png', // the url of the img
-			iconSize: [64, 64],
-			iconAnchor: [32, 64] // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
+			iconUrl: 'https://i.imgur.com/kqAGLLx.png', // the url of the img
+			iconSize: [50, 60],
+			iconAnchor: [50, 0] // the coordinates of the "tip" of the icon ( in this case must be ( icon width/ 2, icon height )
 		});
 
 		// Creating a new marker and adding it to the map
