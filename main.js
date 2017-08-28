@@ -1,28 +1,28 @@
 requirejs.config({
 	//urlArgs: "bust=" + (new Date()).getTime(),
 	paths: {
-		leafletLib: 'leafletLib',
-		JQuery: 'JQuery',
+		leafletLib: 'lib/leafletLib',
+		JQuery: 'lib/JQuery',
 		JQuery_ui: 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min',
-		LoadCSS: 'LoadCSS',
-		DoT_leaflet: 'DoTLeaflet',
-		leaflet: 'leaflet',
-		esri_leaflet: 'esri_leaflet',
-		googleAPI: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBimi-uaVPiKmbW53QUc61AOkzflR0XzZs&sensor=false&libraries=places',
-		smoothMarkerBouncing: 'smoothMarkerBouncing',
-		Leaflet_Google: 'Leaflet_Google',
-		easyButton: 'easy-button',
-		oms: 'oms'
+		LoadCSS: 'lib/LoadCSS',
+		DoT_leaflet: 'lib/DoTLeaflet',
+		leaflet: 'lib/leaflet',
+		esri_leaflet: 'lib/esri_leaflet',
+		//googleAPI: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBimi-uaVPiKmbW53QUc61AOkzflR0XzZs&sensor=false&libraries=places',
+		smoothMarkerBouncing: 'lib/smoothMarkerBouncing',
+		Leaflet_Google: 'lib/Leaflet_Google',
+		easyButton: 'lib/easy-button',
+		oms: 'lib/oms'
 	},
 	shim: {
 		'oms': {
-			deps: ['googleAPI', 'leaflet']
+			deps: ['leaflet']
 		},
 		'DoT_leaflet': {
-			deps: ['easyButton', 'leaflet', 'esri_leaflet','Leaflet_Google', 'googleAPI', 'leafletLib']
+			deps: ['easyButton', 'leaflet', 'esri_leaflet','Leaflet_Google', 'leafletLib']
 		},
 		'Leaflet_Google': {
-			deps: ['googleAPI'] 
+			deps: [] 
 		},
 		'esri_leaflet': {
 			deps: ['oms', 'leaflet']
@@ -38,4 +38,4 @@ requirejs.config({
 
 
 
-require(["oms", "JQuery_ui", "JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "googleAPI", "smoothMarkerBouncing", "Leaflet_Google"]);
+require(["oms", "JQuery_ui", "JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "smoothMarkerBouncing", "Leaflet_Google"]);
