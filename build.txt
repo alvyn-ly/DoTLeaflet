@@ -5,14 +5,14 @@ DoTLeafletcss.css
 
 main.js
 ----------------
-leaflet.js
-oms.js
-JQuery.js
-LoadCSS.js
-easy-button.js
-esri_leaflet.js
-Leaflet_Google.js
-leafletLib.js
-DoTLeaflet.js
-smoothMarkerBouncing.js
+lib/leaflet.js
+lib/oms.js
+lib/JQuery.js
+lib/LoadCSS.js
+lib/easy-button.js
+lib/esri_leaflet.js
+lib/Leaflet_Google.js
+lib/leafletLib.js
+lib/DoTLeaflet.js
+lib/smoothMarkerBouncing.js
 main.js
