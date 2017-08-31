@@ -68,9 +68,11 @@ The Options JSON implementation will look similar to this:
 
 To simplify resource management and including all the different JavaScript sources to make DoT Leaflet work, we employ the use of RequireJS to dynamically load the JavaScript resources automatically without having the developer manually add all various JavaScript include tags.
 
-To employ RequireJS (and in turn, all of the other JavaScript resources), a line is added after all of the in-line JavaScript, or at least after the `options` JSON is declared.
+To employ RequireJS (and in turn, all of the other JavaScript resources), two lines are added after all of the in-line JavaScript, or at least after the `options` JSON is declared.
 
 ```javascript
+<script type="text/javascript" src="link/to/declarations.js">
+</script>
 <script data-main="link/to/main.js" src="link/to/require.js">
 </script>
 ```
@@ -86,6 +88,8 @@ OR
 ```
 ## 4. Options, Functions, and Other Features
 
+First and foremost, all non-static information (e.g. queries, links, css endings, etc) go into **declarations.js**. Refer to **declarations.js** to change inputs if the objects or query change.
+
 DoT Leaflet comes with an easily expandable list of options that attempts to cover most if not all use cases it may be found doing. 
 In the `options` JSON, the currently available customizations are available and are set by their respective inputs:
 
@@ -95,16 +99,19 @@ Option | Description | Input Type | Required?
 :---: | --- | :---: | :---:
 SessionID | Salesforce API Session Key | `'{!$Api.Session_ID}'` | Yes
 Div | Name of Div Container for Map | String | Yes
+filterQuery | Custom query to pass into map to overwrite the default query | String | No
 **search** | Search bar w/ Street and Shop filter | Boolean | No
 route | Routing service with UI, Beta | Boolean | No
 layerMenu | Menu to view/manage/change available layers | Boolean | No
 **dragMarker** | Drag-able icon to place on location, returns data | Boolean | No
 **projectsLayer** | Queries all Projects entries and places on map | Boolean | No
-startDate | Limits projectLayer’s search to dates before this time | Date | No
-endDate | Limits projectLayer’s search to dates after this time | Date | No
+shopsLayer | Queries all Shops entries and places on map, viewable under 14 zoom | Boolean | No
+dateFrom | Limits projectLayer’s search to dates after this time | Date | No
+dateTo | Limits projectLayer’s search to dates before this time | Date | No
 lat | Default starting latitude | Float | No
 lng | Default starting longitude | Float | No
 zoom | Default zoom setting | Integer | No
+focus | Checks current page to this to apply css styling for focal icons | String | No
 location | Current objects location, used to change icon color to differentiate markers. | String | No
 esriSet | **-NOT WORKING-** Extra Esri map layers, council zones, streetlights, etc | Boolean | No
 error | Enables the console error outputs for debugging purposes | Boolean | No
@@ -112,21 +119,21 @@ error | Enables the console error outputs for debugging purposes | Boolean | No
 
 DoT Leaflet also comes with some reserved function names that can be used to view and/or manipulate data for the developer, allowing for functionality that does not exist in the toolkit to be implemented outside to the developer’s needs.
 
-`passMarkerAddress(address)`: 
+`passMarkerAddress(address, zip, getAddr)`: 
  - This is called when Google’s Search Bar reverse-geocodes a Marker’s given set of coordinates and locates a standardized location for that data.
- - An address in the form of a `String` will be passed into this function.
+ - An address, ZIP, and getAddr in the form of a `String` will be passed into this function.
 
-`pushData()`:
+`pushData(JSON)`:
  - This is called when the on-click event is triggered on a marker and gives the full set of info related to the marker’s object it represents.
  - A JSON with all the attributes of the marker’s object will be passed into the function.
 
-`getDropLocation()`:
+`getDropLocation(Latitude, Longitude, and Marker)`:
  - This is called when the draggable Marker is placed anywhere on the map, and will give the marker’s coordinates and the marker itself.
  - A Latitude, Longitude, and Marker object will be passed into the function, in that order.
 
-`setAddressInfo()`:
- - This is called when Google Search Bar’s geocoder returns a result depending on what is typed into the Search Bar. It provides the Longitude, Latitude, Address, and Address Components.
- - A Longitude, Latitude, Address, and Address Components will be passed into the function, in that order.
+`setAddressInfo(Longitude, Latitude, Address, Address_Components, Shop)`:
+ - This is called when Google Search Bar’s geocoder returns a result depending on what is typed into the Search Bar. It provides the Longitude, Latitude, Address, Address Components, and Shop Number.
+ - A Longitude, Latitude, Address,Address Components, and Shop Number will be passed into the function, in that order.
 
 ## 5.    To-Do List and Comments
 
@@ -135,13 +142,10 @@ Map To-do List
 
 - Driving Route overlay. Point A to Point B where existing. RESOURCE FOUND, WAITING ON FULL IMPLEMENTATION
 - Different Project Layers (Ask Paolo or Robert)
-- Icon Templates with color-fill RESOURCE FOUND, WAITING ON IMPLEMENTATION
-- Search by Shop (Future)
 
 
 ----------- NEW PROJECT TASKS -----------
 
-- Re-implement the 'click for info' function for markers. Div-markers, preferably.
 - Find a fix for the esri special layers.
 
 
