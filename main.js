@@ -9,7 +9,7 @@ requirejs.config({
 		leaflet: 'lib/leaflet',
 		esri_leaflet: 'lib/esri_leaflet',
 		//googleAPI: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBimi-uaVPiKmbW53QUc61AOkzflR0XzZs&sensor=false&libraries=places',
-		smoothMarkerBouncing: 'lib/smoothMarkerBouncing',
+		//smoothMarkerBouncing: 'lib/smoothMarkerBouncing',
 		Leaflet_Google: 'lib/Leaflet_Google',
 		easyButton: 'lib/easy-button',
 		oms: 'lib/oms'
@@ -38,4 +38,4 @@ requirejs.config({
 
 
 
-require(["oms", "JQuery_ui", "JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "smoothMarkerBouncing", "Leaflet_Google"]);
+require(["oms", "JQuery_ui", "JQuery", "LoadCSS", "DoT_leaflet", "leaflet", "esri_leaflet", "Leaflet_Google"]);

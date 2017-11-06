@@ -13,7 +13,7 @@
 	var blackHue = ' class="grayscale">';
 	var orangeHue = ' class="huerotate185">';
 
-	var draggableMarker = 'https://i.imgur.com/asjsp66.png';
+	var draggableMarker = 'https://i.imgur.com/ARoXSjT.png';
 	var miniShopIcon = 'https://i.imgur.com/juXmwnf.png';
 
 	//Integer for the default amount of time the map goes back to look for projects without a specified time filter.

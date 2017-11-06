@@ -99,6 +99,8 @@ Option | Description | Input Type | Required?
 :---: | --- | :---: | :---:
 SessionID | Salesforce API Session Key | `'{!$Api.Session_ID}'` | Yes
 Div | Name of Div Container for Map | String | Yes
+projectsLayer | Default layer for DOT Projects with shifting color scheme for statuses | Boolean | No
+customLayer | Input for data to create 1-to-many layers displaying any type of information | JavaScript Object | No
 filterQuery | Custom query to pass into map to overwrite the default query | String | No
 **search** | Search bar w/ Street and Shop filter | Boolean | No
 route | Routing service with UI, Beta | Boolean | No
@@ -113,8 +115,47 @@ lng | Default starting longitude | Float | No
 zoom | Default zoom setting | Integer | No
 focus | Checks current page to this to apply css styling for focal icons | String | No
 location | Current objects location, used to change icon color to differentiate markers. | String | No
-esriSet | **-NOT WORKING-** Extra Esri map layers, council zones, streetlights, etc | Boolean | No
+esriSet | Extra Esri map layers: privateStreets and Incorperated | Boolean | No
+quadZone | Esri Layer to display QuadZones | Boolean | No
+streetLights | Esri Layer to display Streetlights | Boolean | No
+councilZone | Esri Layer to display Council Zones | Boolean | No
 error | Enables the console error outputs for debugging purposes | Boolean | No
+
+
+A major function to DoT Leaflet is to accept a custom object in the form of a Javascript Object into `customLayer`, allowing the map to parse the data and create a layer of markers that is useable by the developer.
+
+An example of how to use it is as follows:
+```javascript
+var query = "Select r.Name, r.IntersectionName__c, r.Geolocation__Longitude__s, r.Geolocation__Latitude__s From Intersection__c r"
+var records = sforce.connection.query(query);
+var records1 = records.getArray('records');
+
+var image = '<img alt="Marker" src="https://i.imgur.com/05FsAvv.png" title="MarkerTitle">';
+var focusImage = '<img alt="Marker" src="https://i.imgur.com/0dfihHg.png" title="MarkerTitle">';
+var textTemplate = '<p style="text-align:center"><b>Intersection Number: </b>{Name}<br><b>Address: </b>{IntersectionName__c}</p>';
+
+var layer = {
+	items : records1,
+	textBubble : textTemplate,
+	image : imageLink,
+	focusImage : focusImageLink,
+	minZoom : 0,
+	maxZoom : 20
+}
+var layerArray = [];
+layerArray.push(layer);
+
+var options = {SessionID:'{!$Api.Session_ID}', div:"map", customLayer:layerArray}
+```
+
+Key | Description | Input Type | Required?
+:---: | --- | :---: | :---:
+items | Array of data used in creating the marker layer | Object Array | Yes
+textBubble | Template of infobox, see [L.Util.template Documentation](http://leafletjs.com/reference-1.2.0.html#util-template) | String | Yes
+image | HTML image markup | String | Yes\
+focusImage | HTML image markup for focal marker | String | No
+minZoom | Lower bound of zoom range to see layer | Integer | No
+maxZoom | Upper bound of zoom range to see layer | Integer | No
 
 
 DoT Leaflet also comes with some reserved function names that can be used to view and/or manipulate data for the developer, allowing for functionality that does not exist in the toolkit to be implemented outside to the developer’s needs.
@@ -135,18 +176,13 @@ DoT Leaflet also comes with some reserved function names that can be used to vie
  - This is called when Google Search Bar’s geocoder returns a result depending on what is typed into the Search Bar. It provides the Longitude, Latitude, Address, Address Components, and Shop Number.
  - A Longitude, Latitude, Address,Address Components, and Shop Number will be passed into the function, in that order.
 
+
+
+
 ## 5.    To-Do List and Comments
 
 Map To-do List
 
-
 - Driving Route overlay. Point A to Point B where existing. RESOURCE FOUND, WAITING ON FULL IMPLEMENTATION
-- Different Project Layers (Ask Paolo or Robert)
-
-
------------ NEW PROJECT TASKS -----------
-
-- Find a fix for the esri special layers.
-
 
 Credit is given where credit is due, I take no credit for the base resources this toolkit makes use of.
