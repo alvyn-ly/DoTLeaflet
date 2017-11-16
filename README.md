@@ -99,8 +99,7 @@ Option | Description | Input Type | Required?
 :---: | --- | :---: | :---:
 SessionID | Salesforce API Session Key | `'{!$Api.Session_ID}'` | Yes
 Div | Name of Div Container for Map | String | Yes
-projectsLayer | Default layer for DOT Projects with shifting color scheme for statuses | Boolean | No
-customLayer | Input for data to create 1-to-many layers displaying any type of information | JavaScript Object | No
+customLayer | Input for data to create 1-to-many layers displaying any type of information | JavaScript Object Array | No
 filterQuery | Custom query to pass into map to overwrite the default query | String | No
 **search** | Search bar w/ Street and Shop filter | Boolean | No
 route | Routing service with UI, Beta | Boolean | No
@@ -152,7 +151,7 @@ Key | Description | Input Type | Required?
 :---: | --- | :---: | :---:
 items | Array of data used in creating the marker layer | Object Array | Yes
 textBubble | Template of infobox, see [L.Util.template Documentation](http://leafletjs.com/reference-1.2.0.html#util-template) | String | Yes
-image | HTML image markup | String | Yes\
+image | HTML image markup | String | Yes
 focusImage | HTML image markup for focal marker | String | No
 minZoom | Lower bound of zoom range to see layer | Integer | No
 maxZoom | Upper bound of zoom range to see layer | Integer | No
