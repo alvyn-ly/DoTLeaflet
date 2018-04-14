@@ -22,9 +22,9 @@ Needless to say, DoT Leaflet is designed to be used almost exclusively for Sales
 
 Implementation requires that there be an accessible directory to store all the required source files. This may include Github, SVN, or some other repository that can be directly accessed by means of a singular link to that file. 
 
-Example: `https://rawgit.com/alvyn-ly/DoTLeaflet/Release-1.0/main.js`
-
-The developer implementing this toolkit must also have API access and general read capabilities across the intended Salesforce platform.
+Example: `https://rawgit.com/alv
+The developer implementing this yn-ly/DoTLeaflet/Release-1.0/main.js`
+toolkit must also have API access and general read capabilities across the intended Salesforce platform.
 
 ## 3.    How To Use DoT Leaflet
 
