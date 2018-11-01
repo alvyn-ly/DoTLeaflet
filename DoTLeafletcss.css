@@ -588,7 +588,10 @@
 	border: 3px ridge rgba(0, 0, 0, 0.2);
 	border-radius:50%;
 }
-
+.cleared {
+	-webkit-filter: brightness(80%) grayscale(100%) opacity(40%);
+	filter: brightness(80%) grayscale(100%) opacity(40%);
+}
 .grayscale {-webkit-filter: grayscale(100%); filter: grayscale(100%);}
 .huerotateN80 {-webkit-filter: hue-rotate(-80deg); filter: hue-rotate(-80deg);}
 .huerotate150 {-webkit-filter: hue-rotate(150deg); filter: hue-rotate(150deg);}
